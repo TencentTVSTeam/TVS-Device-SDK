@@ -45,6 +45,9 @@ TVS Device SDK为客户端提供了腾讯语音唤醒、语音识别、语义识
 ### 音箱专属SDK
 未上架，有需要请联系叮当团队
 
-###  语义/服务数据JSON文档
-链接：[语义JSON文档](./语义服务数据文档/ "语义JSON文档") 
+###  语义JSON数据格式文档
+链接：[语义JSON数据格式文档](./语义服务数据文档/ "语义JSON数据格式文档") 
+
+###  服务JSON数据格式文档
+链接：[服务JSON数据格式文档](https://github.com/TencentDingdang/tvs-tools/tree/master/Tsk%20Protocol "服务JSON数据格式文档") 
 
