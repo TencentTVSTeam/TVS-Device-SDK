@@ -1,0 +1,118 @@
+
+
+-optimizations !code/simplification/arithmetic,!code/simplification/cast,!field/*,!class/merging/*
+-optimizationpasses 5
+-allowaccessmodification
+
+-dontusemixedcaseclassnames
+-dontskipnonpubliclibraryclasses
+-dontskipnonpubliclibraryclassmembers
+-verbose
+-dontpreverify
+-ignorewarnings
+
+-keepattributes Exceptions
+-keepattributes *Annotation*
+-keepattributes Deprecated
+-keepattributes InnerClasses
+-keepattributes Signature
+-keepattributes SourceFile,LineNumberTable
+
+-dontwarn **HoneycombMR2
+-dontwarn **CompatICS
+-dontwarn **Honeycomb
+-dontwarn **CompatIcs*
+-dontwarn **CompatFroyo
+-dontwarn **CompatGingerbread
+
+#----------下方是android平台自带的排除项，这里不要动 -------------
+
+-keep public class * extends android.app.Activity{
+    public <fields>;
+    public <methods>;
+}
+
+-keep public class * extends android.app.Application
+{
+    public <fields>;
+    public <methods>;
+}
+
+-keep class * extends android.app.Service
+-keep class * extends android.android.content.BroadcastReceiver
+-keep class * extends android.android.content.ContentProvider
+-keep class * extends android.app.backup.BackupAgentHelper
+-keep class * extends android.preference.Preference
+
+-keep class * implements android.os.Parcelable{
+    *;
+}
+
+#<!--------------------  下方是共性的排除项目         ------------------>
+# <!--方法名中含有“JNI”字符的，认定是Java Native Interface方法，自动排除-->
+# <!--方法名中含有“JRI”字符的，认定是Java Reflection Interface方法，自动排除-->
+
+-keepclasseswithmembers class * {
+    ... *JNI*(...);
+}
+
+-keepclasseswithmembernames class * {
+	... *JRI*(...);
+}
+
+-keep class **JNI* {*;}
+
+#---- 排除binder对象
+-keep class * extends android.os.Binder {
+    *;
+}
+
+-keepclassmembers enum * {
+    public static **[] values();
+    public static ** valueOf(java.lang.String);
+}
+
+-keepclasseswithmembers class * {
+	public <init>(android.content.Context, android.util.AttributeSet);
+}
+
+-keepclasseswithmembers class * {
+    public <init>(android.android.content.Context, android.util.AttributeSet);
+}
+
+-keepclasseswithmembers class * {
+    public <init>(android.android.content.Context);
+}
+
+-keepclasseswithmembers class * {
+	public <init>(android.content.Context, android.util.AttributeSet, int);
+}
+
+-keepclasseswithmembers class * {
+    public <init>(android.android.content.Context, android.util.AttributeSet, int);
+}
+
+-keepattributes *Annotation*
+
+-renamesourcefileattribute SourceFile
+-keepattributes SourceFile,LineNumberTable
+
+-keepclasseswithmembernames class *{
+    native <methods>;
+}
+
+# 保存协议
+-keep class SmartAssistant.** {
+    *;
+}
+
+-keep class com.tencent.ai.sdk.jni.** {
+    *;
+}
+
+#协议包：
+-keep public class * extends com.tencent.ai.dobby.x.taf.JceStruct{*;}
+-keep public class com.tencent.ai.dobby.x.taf.*{
+	public * ;
+	protected * ;
+}
