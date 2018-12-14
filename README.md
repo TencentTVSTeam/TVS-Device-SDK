@@ -18,7 +18,7 @@ TVS Device SDK为客户端提供了腾讯语音唤醒、语音识别、语义识
 
 链接：[更新日志](./Android%20SDK/README.md "README.md") 
 
-###  Linux SDK文档(version 1.10.18051201)
+###  Linux SDK文档(version 1.10.18051208)
 
 链接：[Linux 基础 SDK API文档](https://tvsteam.github.io/TVS-Device-SDK/api/linux/index.html "Linux 基础SDK") 
 
