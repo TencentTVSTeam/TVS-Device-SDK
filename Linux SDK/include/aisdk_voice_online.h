@@ -77,7 +77,6 @@ const int AISDK_CMD_ONLINE_RECO_SPEECH_TIMEOUT = AISDK_CMD_ONLINE_RECO_START + 9
 /**
  * @brief 回调接口命令定义,完整模式的在线识别流程结束（以FULL_MODE启动时才会回调）
  * @see AISDK_CALLBACK
- * @note 暂不支持 TODO
  */
 const int AISDK_CMD_ONLINE_RECO_FULL_MODE_FINISHED = AISDK_CMD_ONLINE_RECO_START + 10;
 
@@ -281,6 +280,35 @@ const int AISDK_CONFIG_VOICE_ONLINE_AUDIO_PACKET_SIZE = AISDK_CONFIG_VOICE_ONLIN
  */
 const int AISDK_CONFIG_VOICE_ENV_TYPE = AISDK_CONFIG_VOICE_ONLINE_BEGIN + 12;
 
+/**
+* 忽略在语音识别中的唤醒
+*/
+const int AISDK_CONFIG_VOICE_ONLINE_IGNORE_WAKEUP_WHEN_RECO = AISDK_CONFIG_VOICE_ONLINE_BEGIN + 13;
+
+/**
+ *
+ * @see aisdkSetConfig()
+ *
+ * @brief 配置输入音频是否已编码
+ *
+ * 配置项关键字。
+ * ## 功能
+ * 配置语音识别的输入音频是否已编码，对输入已编码的音频SDK不会再做编码，默认输入未编码音频
+ *
+ * ## 值
+ * ## 示例：
+ * ```
+ * // 配置输入已编码音频
+ * aisdkSetConfig(AISDK_CONFIG_VOICE_ONLINE_INPUT_ENCODED_DATA,"1")
+  * // 配置输入未编码音频
+ * aisdkSetConfig(AISDK_CONFIG_VOICE_ONLINE_INPUT_ENCODED_DATA,"0")
+ * ```
+ * @note 注意：因为SDK不会对已编码音频做解码，输入已编码音频不会去做本地VAD检查
+ *
+ * @see AISDK_CONFIG_AUDIO_FORMAT 编码格式由这个配置指定
+ */
+const int AISDK_CONFIG_VOICE_ONLINE_INPUT_ENCODED_DATA = AISDK_CONFIG_VOICE_ONLINE_BEGIN + 14;
+
 // 配置项，key的结束值
 const int AISDK_CONFIG_VOICE_ONLINE_END = 6999;
 
@@ -318,6 +346,13 @@ const int AISDK_RESULT_CODE_ONLINE_OK = 0;
 const int AISDK_RESULT_CODE_ONLINE_CANCELED_BY_WAKEUP = 1;
 
 /**
+ * @brief 初始化语音识别功能，如果没有接入新版vad，不需要调用此方法
+ * @param resDir VAD模型所在的根目录
+ * @return 0：ok，other：fail。 错误码定义见AISDK_ERROR_*常量
+ */
+AISDK_API_EXPORTS int aisdkInitOnlineVoice2Text(const char* modelPath);
+
+/**
  * @brief 开始一次语音识别流程
  * @param userData 自定义数据指针。callback时带回。
  * @param len 自定义数据长度。
@@ -352,6 +387,9 @@ AISDK_API_EXPORTS int aisdkCancelOnlineVoice2Text();
 * @return 0：ok，other：fail。 错误码定义见AISDK_ERROR_*常量
 */
 AISDK_API_EXPORTS int aisdkStopOnlineVoice2Text();
+
+
+AISDK_API_EXPORTS const char* aisdkGetVadVersion();
 
 #ifdef __cplusplus
 }

@@ -306,7 +306,7 @@ const int AISDK_CONFIG_LBS_DATA = AISDK_CONFIG_COMMON_BEGIN + 9;
  *
  * ## 示例：
  * ```
- * // 设置经纬度
+ * // 设置识别模型
  * aisdkSetConfig(AISDK_CONFIG_ASR_DOMAIN,"80")
  * ```
  */
@@ -484,6 +484,17 @@ const int AISDK_CONFIG_CHANNEL_ID = AISDK_CONFIG_COMMON_BEGIN + 20;
  *
  */
 const int AISDK_CONFIG_RSP_VERSION = AISDK_CONFIG_COMMON_BEGIN + 21;
+
+/**
+ * @see aisdkSetConfig()
+ *
+ * @brief 配置日志文件大小
+ *
+ * ## 功能
+ * 配置配置日志文件大小，单位MB，此配置只能在init方法调用之前设置
+ *
+ */
+const int AISDK_CONFIG_LOG_MAX_SIZE = AISDK_CONFIG_COMMON_BEGIN + 22;
 
 // 通用配置项，key的结束值
 const int AISDK_CONFIG_COMMON_END = 999;
