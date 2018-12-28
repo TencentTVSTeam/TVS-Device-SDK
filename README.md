@@ -3,14 +3,14 @@
 TVS Device SDK为客户端提供了腾讯语音唤醒、语音识别、语义识别、语音合成的能力。
 
 ### 注意
-* 开发者接入需要申请APP KEY，否则语义识别只有chat领域。请联系腾讯叮当团队。
+* 开发者接入需要申请APP KEY，否则无法使用叮当语音服务，申请APP KEY请到开放平台[网站](https://dingdang.qq.com/open#/)上申请。
 * github上没有放置唤醒库和唤醒模型。如有需要，请联系腾讯叮当团队。
 
-### Android SDK文档(version 2.0.180605)
+### Android SDK文档
 
-链接：[Android 基础 SDK  API文档](https://tvsteam.github.io/TVS-Device-SDK/api/android/index.html "Android 基础 SDK") 
+链接：[Android 基础 SDK  API文档](https://dingdang.qq.com/doc/aiandroidsdk.html?dir=/doc/aisdk/android/atw_session.html "Android 基础 SDK") 
 
-链接：[Android 基础 SDK 接入文档](./Android%20SDK/ "Android 基础SDK") 
+链接：[Android 基础 SDK 接入文档](https://dingdang.qq.com/doc.html?dir=/doc/tvs/androidsdk.html "Android 基础SDK") 
 
 链接：[sample](./Android%20SDK/sample "sample") 
 
@@ -18,7 +18,7 @@ TVS Device SDK为客户端提供了腾讯语音唤醒、语音识别、语义识
 
 链接：[更新日志](./Android%20SDK/README.md "README.md") 
 
-###  Linux SDK文档(version 1.10.18051208)
+###  Linux SDK文档
 
 链接：[Linux 基础 SDK API文档](https://dingdang.qq.com/doc/ailinuxsdk.html?dir=/doc/aisdk/linux/aisdk_account_online.html "Linux 基础SDK") 
 
@@ -30,11 +30,11 @@ TVS Device SDK为客户端提供了腾讯语音唤醒、语音识别、语义识
 
 链接：[更新日志](./Linux%20SDK/CHANGELOG.md "CHANGELOG.md") 
 
-### iOS SDK文档(version 1.0.2)
+### iOS SDK文档
 
-链接：[iOS 基础 SDK API文档](https://tvsteam.github.io/TVS-Device-SDK/api/iOS/index.html " iOS SDK") 
+链接：[iOS 基础 SDK API文档](https://dingdang.qq.com/doc/aiiossdk.html?dir=/doc/aisdk/ios/semantic_session.html " iOS SDK") 
 
-链接：[iOS 基础 SDK 接入文档](./iOS%20SDK/ "TVS Device SDK iOS接入说明") 
+链接：[iOS 基础 SDK 接入文档](https://dingdang.qq.com/doc.html?dir=/doc/tvs/iossdk.html "TVS Device SDK iOS接入说明") 
 
 链接：[sample](./iOS%20SDK/sample "sample") 
 
