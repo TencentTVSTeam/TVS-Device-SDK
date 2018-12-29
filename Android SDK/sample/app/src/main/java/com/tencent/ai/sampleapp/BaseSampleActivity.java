@@ -9,8 +9,6 @@ import android.util.Log;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
-
 /**
  * SampleActivity基类
  *

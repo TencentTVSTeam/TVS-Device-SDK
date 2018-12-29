@@ -26,17 +26,17 @@ public class SpeechApplication extends Application {
 		String result = "";
 		try {
 			final JSONObject info = new JSONObject();
-			info.put("appkey", "填入应用的appkey");
-			info.put("token", "填入应用的access token");
+			info.put("appkey", ""); //填入应用的appkey
+			info.put("token", ""); //填入应用的access token
 			/**
 			 * 如果产品是车机，填入CAR
 			 * 如果产品是电视，填入TV
 			 * 如果产品是音箱，填入SPEAKER
 			 * 如果产品是手机，填入PHONE
 			 */
-			info.put("deviceName", "固定，填入CAR或者TV或者SPEAKER或者PHONE");
-			info.put("productName", "产品名称，不要有特殊字符和空格");
-			info.put("vendor","厂商英文名,不要有特殊字符和空格");
+			info.put("deviceName", ""); //固定，填入CAR或者TV或者SPEAKER或者PHONE
+			info.put("productName", ""); //产品名称，不要有特殊字符和空格
+			info.put("vendor",""); //厂商英文名,不要有特殊字符和空格
 
 			final JSONObject json = new JSONObject();
 			json.put("info", info);

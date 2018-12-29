@@ -36,7 +36,7 @@ public class WakeupActivity extends BaseSampleActivity implements View.OnClickLi
 
     /** 唤醒本地模型文件，保证跟识别模型 */
     private static final String RES_PATH = Environment.getExternalStorageDirectory().getAbsolutePath()
-            + "/tencent/dingdang/res/tr";
+            + "/tencent/dingdang/res/tsr";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
