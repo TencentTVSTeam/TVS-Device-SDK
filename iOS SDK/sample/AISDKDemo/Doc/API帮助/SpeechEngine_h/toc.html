@@ -53,13 +53,14 @@
 <ul class="tocSubEntryList">
 <!-- class method --><li class="tocSubEntry"><a href="index.html#//apple_ref/c/func/addSession:" target="_top">addSession:</a></li>
 <li class="tocSubEntry"><a href="index.html#//apple_ref/c/func/getConfig:" target="_top">getConfig:</a></li>
+<li class="tocSubEntry"><a href="index.html#//apple_ref/c/func/getInitedInstance" target="_top">getInitedInstance</a></li>
 <li class="tocSubEntry"><a href="index.html#//apple_ref/c/func/getSDKVersion" target="_top">getSDKVersion</a></li>
 <li class="tocSubEntry"><a href="index.html#//apple_ref/c/func/releaseSDK" target="_top">releaseSDK</a></li>
 <li class="tocSubEntry"><a href="index.html#//apple_ref/c/func/removeSDelegate:" target="_top">removeSDelegate:</a></li>
 <li class="tocSubEntry"><a href="index.html#//apple_ref/c/func/setConfig:value:" target="_top">setConfig:value:</a></li>
+<li class="tocSubEntry"><a href="index.html#//apple_ref/c/func/setNetworkType:" target="_top">setNetworkType:</a></li>
 <li class="tocSubEntry"><a href="index.html#//apple_ref/c/func/setQUA:product:version:versionNum:package:device:" target="_top">setQUA:&zwj;product:&zwj;version:&zwj;versionNum:&zwj;package:&zwj;device:&zwj;</a></li>
-<li class="tocSubEntry"><a href="index.html#//apple_ref/c/func/sharedInstance" target="_top">sharedInstance</a></li>
-<li class="tocSubEntry"><a href="index.html#//apple_ref/c/func/sharedInstance:acess_token:" target="_top">sharedInstance:acess_token:</a></li>
+<li class="tocSubEntry"><a href="index.html#//apple_ref/c/func/sharedInstance:acess_token:withDsn:" target="_top">sharedInstance:&zwj;acess_token:&zwj;withDsn:&zwj;</a></li>
 </ul>
 </div>
 </div>
@@ -79,18 +80,22 @@
 
 <ul class="tocSubEntryList">
 <!-- public --><li class="tocSubEntry"><a href="index.html#//apple_ref/c/data/K_AISDK_CONFIG_APP_KEY_AND_TOKEN" target="_top">K_AISDK_CONFIG_APP_KEY_AND_TOKEN</a></li>
+<li class="tocSubEntry"><a href="index.html#//apple_ref/c/data/K_AISDK_CONFIG_APP_VERSION_NUM" target="_top">K_AISDK_CONFIG_APP_VERSION_NUM</a></li>
 <li class="tocSubEntry"><a href="index.html#//apple_ref/c/data/K_AISDK_CONFIG_ASR_DOMAIN" target="_top">K_AISDK_CONFIG_ASR_DOMAIN</a></li>
 <li class="tocSubEntry"><a href="index.html#//apple_ref/c/data/K_AISDK_CONFIG_AUDIO_FORMAT" target="_top">K_AISDK_CONFIG_AUDIO_FORMAT</a></li>
 <li class="tocSubEntry"><a href="index.html#//apple_ref/c/data/K_AISDK_CONFIG_CHAT_BOT" target="_top">K_AISDK_CONFIG_CHAT_BOT</a></li>
 <li class="tocSubEntry"><a href="index.html#//apple_ref/c/data/K_AISDK_CONFIG_ENV_TYPE" target="_top">K_AISDK_CONFIG_ENV_TYPE</a></li>
+<li class="tocSubEntry"><a href="index.html#//apple_ref/c/data/K_AISDK_CONFIG_GUID" target="_top">K_AISDK_CONFIG_GUID</a></li>
 <li class="tocSubEntry"><a href="index.html#//apple_ref/c/data/K_AISDK_CONFIG_LBS_DATA" target="_top">K_AISDK_CONFIG_LBS_DATA</a></li>
 <li class="tocSubEntry"><a href="index.html#//apple_ref/c/data/K_AISDK_CONFIG_LOG_LEVEL" target="_top">K_AISDK_CONFIG_LOG_LEVEL</a></li>
+<li class="tocSubEntry"><a href="index.html#//apple_ref/c/data/K_AISDK_CONFIG_OPEN_SANDBOX" target="_top">K_AISDK_CONFIG_OPEN_SANDBOX</a></li>
 <li class="tocSubEntry"><a href="index.html#//apple_ref/c/data/K_AISDK_CONFIG_REQ_TIMEOUT" target="_top">K_AISDK_CONFIG_REQ_TIMEOUT</a></li>
 <li class="tocSubEntry"><a href="index.html#//apple_ref/c/data/K_AISDK_CONFIG_TTS_ENGINE" target="_top">K_AISDK_CONFIG_TTS_ENGINE</a></li>
 <li class="tocSubEntry"><a href="index.html#//apple_ref/c/data/K_AISDK_CONFIG_TTS_TYPE" target="_top">K_AISDK_CONFIG_TTS_TYPE</a></li>
 <li class="tocSubEntry"><a href="index.html#//apple_ref/c/data/K_AISDK_CONFIG_VAD_RATION" target="_top">K_AISDK_CONFIG_VAD_RATION</a></li>
 <li class="tocSubEntry"><a href="index.html#//apple_ref/c/data/K_AISDK_CONFIG_VALUE_DISABLE" target="_top">K_AISDK_CONFIG_VALUE_DISABLE</a></li>
 <li class="tocSubEntry"><a href="index.html#//apple_ref/c/data/K_AISDK_CONFIG_VALUE_ENABLE" target="_top">K_AISDK_CONFIG_VALUE_ENABLE</a></li>
+<li class="tocSubEntry"><a href="index.html#//apple_ref/c/data/K_AISDK_CONFIG_VALUE_ENV_TYPE_EXP" target="_top">K_AISDK_CONFIG_VALUE_ENV_TYPE_EXP</a></li>
 <li class="tocSubEntry"><a href="index.html#//apple_ref/c/data/K_AISDK_CONFIG_VALUE_ENV_TYPE_FORMAL" target="_top">K_AISDK_CONFIG_VALUE_ENV_TYPE_FORMAL</a></li>
 <li class="tocSubEntry"><a href="index.html#//apple_ref/c/data/K_AISDK_CONFIG_VALUE_ENV_TYPE_TEST" target="_top">K_AISDK_CONFIG_VALUE_ENV_TYPE_TEST</a></li>
 <li class="tocSubEntry"><a href="index.html#//apple_ref/c/data/K_AISDK_CONFIG_VALUE_LOG_LEVEL_DEBUG" target="_top">K_AISDK_CONFIG_VALUE_LOG_LEVEL_DEBUG</a></li>
@@ -102,6 +107,11 @@
 <li class="tocSubEntry"><a href="index.html#//apple_ref/c/data/K_AISDK_CONFIG_VALUE_TTS_TYPE_MP3" target="_top">K_AISDK_CONFIG_VALUE_TTS_TYPE_MP3</a></li>
 <li class="tocSubEntry"><a href="index.html#//apple_ref/c/data/K_AISDK_CONFIG_VALUE_TTS_TYPE_WAV" target="_top">K_AISDK_CONFIG_VALUE_TTS_TYPE_WAV</a></li>
 <li class="tocSubEntry"><a href="index.html#//apple_ref/c/data/K_AISDK_CONFIG_VOICE_ENGINE" target="_top">K_AISDK_CONFIG_VOICE_ENGINE</a></li>
+<li class="tocSubEntry"><a href="index.html#//apple_ref/c/data/K_AISDK_CONFIG_WAKEUP_BUFFER_CONTROL" target="_top">K_AISDK_CONFIG_WAKEUP_BUFFER_CONTROL</a></li>
+<li class="tocSubEntry"><a href="index.html#//apple_ref/c/data/K_AISDK_CONFIG_WAKEUP_BUFFER_MAX_FILE_SIZE" target="_top">K_AISDK_CONFIG_WAKEUP_BUFFER_MAX_FILE_SIZE</a></li>
+<li class="tocSubEntry"><a href="index.html#//apple_ref/c/data/K_AISDK_CONFIG_WAKEUP_BUFFER_SAVING_ENABLED" target="_top">K_AISDK_CONFIG_WAKEUP_BUFFER_SAVING_ENABLED</a></li>
+<li class="tocSubEntry"><a href="index.html#//apple_ref/c/data/K_AISDK_CONFIG_WAKEUP_BUFFER_SAVING_PATH" target="_top">K_AISDK_CONFIG_WAKEUP_BUFFER_SAVING_PATH</a></li>
+<li class="tocSubEntry"><a href="index.html#//apple_ref/c/data/K_AISDK_CONFIG_WAKEUP_BUFFER_UPLOAD_NETWORK_TYPE" target="_top">K_AISDK_CONFIG_WAKEUP_BUFFER_UPLOAD_NETWORK_TYPE</a></li>
 <li class="tocSubEntry"><a href="index.html#//apple_ref/c/data/K_AISDK_ERROR_COMMOM_SERVICE_RESP" target="_top">K_AISDK_ERROR_COMMOM_SERVICE_RESP</a></li>
 <li class="tocSubEntry"><a href="index.html#//apple_ref/c/data/K_AISDK_ERROR_COMMON_INTERNAL_ERROR" target="_top">K_AISDK_ERROR_COMMON_INTERNAL_ERROR</a></li>
 <li class="tocSubEntry"><a href="index.html#//apple_ref/c/data/K_AISDK_ERROR_COMMON_NETWORK_FAIL" target="_top">K_AISDK_ERROR_COMMON_NETWORK_FAIL</a></li>

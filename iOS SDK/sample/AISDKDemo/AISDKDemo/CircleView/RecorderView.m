@@ -117,4 +117,8 @@
     [_mRecorder_msg setText:text];
 }
 
+- (void)setTouchEnabled:(BOOL)enable {
+    [_mRecorder_bg setEnabled:enable];
+}
+
 @end

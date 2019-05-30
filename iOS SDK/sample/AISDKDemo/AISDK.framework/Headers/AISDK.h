@@ -21,3 +21,5 @@ FOUNDATION_EXPORT const unsigned char AISDKVersionString[];
 #import "SemanticSession.h"
 #import "TtsSession.h"
 #import "SpeechWakeup.h"
+#import "OneshotSession.h"
+//#import "VoiceOfflineSession.h"

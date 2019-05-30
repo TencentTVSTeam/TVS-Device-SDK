@@ -286,11 +286,20 @@ function disclosure_triangle(elt) {
 <dt><tt><a href="index.html#//apple_ref/c/func/cancelOfflineWakeup" target="_top">+cancelOfflineWakeup</a></tt></dt>
 <dd><p>&#21462;&#28040;&#26412;&#27425;&#35821;&#38899;&#21796;&#37266;&#35782;&#21035;&#27969;&#31243;&#12290;
 </p></dd>
+<dt><tt><a href="index.html#//apple_ref/c/func/getScore" target="_top">+getScore</a></tt></dt>
+<dd><p>&#33719;&#21462;&#19978;&#19968;&#27425;&#21796;&#37266;&#30340;&#32622;&#20449;&#24230;
+</p></dd>
+<dt><tt><a href="index.html#//apple_ref/c/func/getSensitive" target="_top">+getSensitive</a></tt></dt>
+<dd><p>&#33719;&#21462;&#24403;&#21069;&#21796;&#37266;&#27169;&#22411;&#30340;&#28789;&#25935;&#24230;
+</p></dd>
 <dt><tt><a href="index.html#//apple_ref/c/func/initOfflineWakupWithPath:" target="_top">+initOfflineWakupWithPath:</a></tt></dt>
 <dd><p>&#21796;&#37266;&#21021;&#22987;&#21270;&#65292;&#21482;&#38656;&#35201;&#21021;&#22987;&#21270;&#19968;&#27425;&#12290;
 </p></dd>
 <dt><tt><a href="index.html#//apple_ref/c/func/inputOfflineWakeupAudioData:withLength:" target="_top">+inputOfflineWakeupAudioData:withLength:</a></tt></dt>
 <dd><p>&#36755;&#20837;&#24405;&#38899;&#25968;&#25454;
+</p></dd>
+<dt><tt><a href="index.html#//apple_ref/c/func/setSensitive:" target="_top">+setSensitive:</a></tt></dt>
+<dd><p>&#35774;&#32622;&#24403;&#21069;&#21796;&#37266;&#27169;&#22411;&#30340;&#28789;&#25935;&#24230;
 </p></dd>
 <dt><tt><a href="index.html#//apple_ref/c/func/startOfflineWakupWithData:withLength:withFlags:" target="_top">+startOfflineWakupWithData:withLength:withFlags:</a></tt></dt>
 <dd><p>&#24320;&#22987;&#19968;&#27425;&#21796;&#37266;&#35782;&#21035;
@@ -310,6 +319,38 @@ function disclosure_triangle(elt) {
 <h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Return Value</font></h5>
 <p><!-- begin return value --></p>
 <p>0&#65306;ok&#65292;other&#65306;fail&#12290; &#38169;&#35823;&#30721;&#23450;&#20041;&#35265;AISDK_ERROR_*&#24120;&#37327;
+
+<!-- end return value --></p>
+<hr class="betweenAPIEntries">
+<!-- headerDoc=func;  uid=//apple_ref/c/func/getScore;   name=getScore -->
+<a name="//apple_ref/c/func/getScore"></a>
+<h3><a name="getScore">getScore</a></h3>
+<hr class="afterName">
+<p><!-- headerDoc=abstract;uid=//apple_ref/c/func/getScore;name=start --><!-- begin abstract --></p>
+<p>&#33719;&#21462;&#19978;&#19968;&#27425;&#21796;&#37266;&#30340;&#32622;&#20449;&#24230;
+<!-- end abstract --><!-- headerDoc=abstract;uid=//apple_ref/c/func/getScore;name=end --></p>
+<div class="declaration_indent">
+<pre><!-- headerDoc=declaration;uid=//apple_ref/c/func/getScore;name=start -->- (<!-- a logicalPath="//apple_ref/occ/cl/float //apple_ref/occ/tdef/float //apple_ref/occ/tag/float //apple_ref/occ/struct/float //apple_ref/occ/intf/float //apple_ref/doc/anysymbol/float" machineGenerated="true" --><span class="type">float</span><!-- /a -->)<!-- a logicalPath="//apple_ref/occ/econst/getScore //apple_ref/occ/data/getScore //apple_ref/occ/clconst/getScore " machineGenerated="true" --><span class="var">getScore</span><!-- /a -->;  <!-- headerDoc=declaration;uid=//apple_ref/c/func/getScore;name=end --></pre>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Return Value</font></h5>
+<p><!-- begin return value --></p>
+<p>&#32622;&#20449;&#24230;&#65292;&#21462;&#20540;&#33539;&#22260;&#65306;0.0~1.0
+
+<!-- end return value --></p>
+<hr class="betweenAPIEntries">
+<!-- headerDoc=func;  uid=//apple_ref/c/func/getSensitive;   name=getSensitive -->
+<a name="//apple_ref/c/func/getSensitive"></a>
+<h3><a name="getSensitive">getSensitive</a></h3>
+<hr class="afterName">
+<p><!-- headerDoc=abstract;uid=//apple_ref/c/func/getSensitive;name=start --><!-- begin abstract --></p>
+<p>&#33719;&#21462;&#24403;&#21069;&#21796;&#37266;&#27169;&#22411;&#30340;&#28789;&#25935;&#24230;
+<!-- end abstract --><!-- headerDoc=abstract;uid=//apple_ref/c/func/getSensitive;name=end --></p>
+<div class="declaration_indent">
+<pre><!-- headerDoc=declaration;uid=//apple_ref/c/func/getSensitive;name=start -->- (<!-- a logicalPath="//apple_ref/occ/cl/float //apple_ref/occ/tdef/float //apple_ref/occ/tag/float //apple_ref/occ/struct/float //apple_ref/occ/intf/float //apple_ref/doc/anysymbol/float" machineGenerated="true" --><span class="type">float</span><!-- /a -->)<!-- a logicalPath="//apple_ref/occ/econst/getSensitive //apple_ref/occ/data/getSensitive //apple_ref/occ/clconst/getSensitive " machineGenerated="true" --><span class="var">getSensitive</span><!-- /a -->;  <!-- headerDoc=declaration;uid=//apple_ref/c/func/getSensitive;name=end --></pre>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Return Value</font></h5>
+<p><!-- begin return value --></p>
+<p>&#28789;&#25935;&#24230;&#65292;&#21462;&#20540;&#33539;&#22260;&#65306;0.0~1.0
 
 <!-- end return value --></p>
 <hr class="betweenAPIEntries">
@@ -374,6 +415,33 @@ function disclosure_triangle(elt) {
 <p><b>WARNING:</b><br></p>
 <div class="warning_indent"><p>&#24314;&#35758;&#27599;&#27425;&#35843;&#29992;&#36755;&#20837;&#30340;&#24405;&#38899;&#25968;&#25454;&#38271;&#24230;&#20026;4096&#23383;&#33410;&#12290;</p></div>
 <!-- end return value --><hr class="betweenAPIEntries">
+<!-- headerDoc=func;  uid=//apple_ref/c/func/setSensitive:;   name=setSensitive: -->
+<a name="//apple_ref/c/func/setSensitive:"></a>
+<h3><a name="setSensitive:">setSensitive:</a></h3>
+<hr class="afterName">
+<p><!-- headerDoc=abstract;uid=//apple_ref/c/func/setSensitive:;name=start --><!-- begin abstract --></p>
+<p>&#35774;&#32622;&#24403;&#21069;&#21796;&#37266;&#27169;&#22411;&#30340;&#28789;&#25935;&#24230;
+<!-- end abstract --><!-- headerDoc=abstract;uid=//apple_ref/c/func/setSensitive:;name=end --></p>
+<div class="declaration_indent">
+<pre><!-- headerDoc=declaration;uid=//apple_ref/c/func/setSensitive:;name=start -->- (<!-- a logicalPath="//apple_ref/occ/cl/int //apple_ref/occ/tdef/int //apple_ref/occ/tag/int //apple_ref/occ/struct/int //apple_ref/occ/intf/int //apple_ref/doc/anysymbol/int" machineGenerated="true" --><span class="type">int</span><!-- /a -->)<!-- a logicalPath="//apple_ref/occ/instm/setSensitive //apple_ref/occ/clm/setSensitive //apple_ref/occ/intfcm/setSensitive //apple_ref/occ/intfm/setSensitive //apple_ref/occ/func/setSensitive //apple_ref/occ/ftmplt/setSensitive //apple_ref/occ/defn/setSensitive //apple_ref/occ/macro/setSensitive //apple_ref/doc/anysymbol/setSensitive" machineGenerated="true" --><span class="function">setSensitive</span><!-- /a -->:(<!-- a logicalPath="//apple_ref/occ/cl/float //apple_ref/occ/tdef/float //apple_ref/occ/tag/float //apple_ref/occ/struct/float //apple_ref/occ/intf/float //apple_ref/doc/anysymbol/float" machineGenerated="true" --><span class="type">float</span><!-- /a -->)<!-- a logicalPath="//apple_ref/occ/econst/sensitive //apple_ref/occ/data/sensitive //apple_ref/occ/clconst/sensitive " machineGenerated="true" --><span class="var">sensitive</span><!-- /a -->;  <!-- headerDoc=declaration;uid=//apple_ref/c/func/setSensitive:;name=end --></pre>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Parameters</font></h5>
+<div class="param_indent">
+<dl>
+<dt>
+<!-- headerDoc=methodparam;  uid=//apple_ref/doc/methodparam/setSensitive:/sensitive;   name=setSensitive:::sensitive -->
+<a name="//apple_ref/doc/methodparam/setSensitive:/sensitive"></a>
+<code>sensitive</code>
+</dt>
+<dd><p>&#28789;&#25935;&#24230;&#65292;&#21462;&#20540;&#33539;&#22260;&#65306;0.0~1.0</p></dd>
+</dl>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Return Value</font></h5>
+<p><!-- begin return value --></p>
+<p>0&#65306;ok&#65292;other&#65306;fail&#12290;
+
+<!-- end return value --></p>
+<hr class="betweenAPIEntries">
 <!-- headerDoc=func;  uid=//apple_ref/c/func/startOfflineWakupWithData:withLength:withFlags:;   name=startOfflineWakupWithData:withLength:withFlags: -->
 <a name="//apple_ref/c/func/startOfflineWakupWithData:withLength:withFlags:"></a>
 <h3><a name="startOfflineWakupWithData:withLength:withFlags:">startOfflineWakupWithData:withLength:withFlags:</a></h3>
@@ -428,6 +496,11 @@ function disclosure_triangle(elt) {
 </p></dd>
 <dt><tt><a href="index.html#//apple_ref/c/data/K_AISDK_CMD_WAKEUP_RECO_START" target="_top">K_AISDK_CMD_WAKEUP_RECO_START</a></tt></dt>
 <dd></dd>
+<dt><tt><a href="index.html#//apple_ref/c/data/K_AISDK_CONFIG_WAKEUP_BUFFER_CONTROL" target="_top">K_AISDK_CONFIG_WAKEUP_BUFFER_CONTROL</a></tt></dt>
+<dd><p>&#21796;&#37266;&#24405;&#38899;&#25991;&#20214;&#25511;&#21046;&#21629;&#20196;&#65292;&#20869;&#37096;&#20351;&#29992;</p></dd>
+<dt><tt><a href="index.html#//apple_ref/c/data/K_AISDK_CONFIG_WAKEUP_MODEL_MD5" target="_top">K_AISDK_CONFIG_WAKEUP_MODEL_MD5</a></tt></dt>
+<dd><p>&#33719;&#21462;&#21796;&#37266;&#27169;&#22411;&#30340;MD5&#65292;&#20165;&#25903;&#25345;&#33719;&#21462;&#65292;&#19981;&#25903;&#25345;&#35774;&#32622;
+</p></dd>
 <dt><tt><a href="index.html#//apple_ref/c/data/K_AISDK_ERROR_WAKEUP_RECO_CREATE_HANDLE_FAILED" target="_top">K_AISDK_ERROR_WAKEUP_RECO_CREATE_HANDLE_FAILED</a></tt></dt>
 <dd><p>&#38169;&#35823;&#30721;&#23450;&#20041;&#65306;&#21019;&#24314;&#22312;&#32447;&#35782;&#21035;&#27169;&#22359;&#22833;&#36133;
 </p></dd>
@@ -509,6 +582,37 @@ function disclosure_triangle(elt) {
 <!-- headerDoc=discussion;uid=//apple_ref/c/data/K_AISDK_CMD_WAKEUP_RECO_START;name=end --><!-- end discussion -->
 </p>
 <hr class="betweenAPIEntries">
+<!-- headerDoc=data;  uid=//apple_ref/c/data/K_AISDK_CONFIG_WAKEUP_BUFFER_CONTROL;   name=K_AISDK_CONFIG_WAKEUP_BUFFER_CONTROL -->
+<a name="//apple_ref/c/data/K_AISDK_CONFIG_WAKEUP_BUFFER_CONTROL"></a>
+<h3><a name="K_AISDK_CONFIG_WAKEUP_BUFFER_CONTROL">K_AISDK_CONFIG_WAKEUP_BUFFER_CONTROL</a></h3>
+<hr class="afterName">
+<p><!-- headerDoc=abstract;uid=//apple_ref/c/data/K_AISDK_CONFIG_WAKEUP_BUFFER_CONTROL;name=start --><!-- begin abstract --></p>
+<p>&#21796;&#37266;&#24405;&#38899;&#25991;&#20214;&#25511;&#21046;&#21629;&#20196;&#65292;&#20869;&#37096;&#20351;&#29992;<!-- end abstract --><!-- headerDoc=abstract;uid=//apple_ref/c/data/K_AISDK_CONFIG_WAKEUP_BUFFER_CONTROL;name=end --></p>
+<div class="declaration_indent">
+<pre><!-- headerDoc=declaration;uid=//apple_ref/c/data/K_AISDK_CONFIG_WAKEUP_BUFFER_CONTROL;name=start --><span class="keyword">extern</span> <span class="keyword">const</span> <!-- a logicalPath="//apple_ref/occ/cl/int //apple_ref/occ/tdef/int //apple_ref/occ/tag/int //apple_ref/occ/struct/int //apple_ref/occ/intf/int //apple_ref/doc/anysymbol/int" machineGenerated="true" --><span class="type">int</span><!-- /a --> <a machinegenerated="true" href="index.html#//apple_ref/c/data/K_AISDK_CONFIG_WAKEUP_BUFFER_CONTROL" logicalPath="//apple_ref/occ/econst/K_AISDK_CONFIG_WAKEUP_BUFFER_CONTROL //apple_ref/occ/data/K_AISDK_CONFIG_WAKEUP_BUFFER_CONTROL" target="_top"><span class="var">K_AISDK_CONFIG_WAKEUP_BUFFER_CONTROL</span></a>; <span class="comment">// = AISDK_CONFIG_WAKEUP_BEGIN + 6;</span> <!-- headerDoc=declaration;uid=//apple_ref/c/data/K_AISDK_CONFIG_WAKEUP_BUFFER_CONTROL;name=end --></pre>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5>
+<!-- begin discussion --><!-- headerDoc=discussion;uid=//apple_ref/c/data/K_AISDK_CONFIG_WAKEUP_BUFFER_CONTROL;name=start --><p>## &#31034;&#20363;&#65306;
+```
+// &#19978;&#20256;&#21796;&#37266;&#24405;&#38899;&#25991;&#20214;
+aisdkSetConfig(K_AISDK_CONFIG_WAKEUP_BUFFER_CONTROL,"1")
+// &#21462;&#28040;&#19978;&#20256;&#21796;&#37266;&#24405;&#38899;&#25991;&#20214;
+aisdkSetConfig(K_AISDK_CONFIG_WAKEUP_BUFFER_CONTROL,"2")
+```
+<!-- headerDoc=discussion;uid=//apple_ref/c/data/K_AISDK_CONFIG_WAKEUP_BUFFER_CONTROL;name=end --><!-- end discussion -->
+</p>
+<hr class="betweenAPIEntries">
+<!-- headerDoc=data;  uid=//apple_ref/c/data/K_AISDK_CONFIG_WAKEUP_MODEL_MD5;   name=K_AISDK_CONFIG_WAKEUP_MODEL_MD5 -->
+<a name="//apple_ref/c/data/K_AISDK_CONFIG_WAKEUP_MODEL_MD5"></a>
+<h3><a name="K_AISDK_CONFIG_WAKEUP_MODEL_MD5">K_AISDK_CONFIG_WAKEUP_MODEL_MD5</a></h3>
+<hr class="afterName">
+<p><!-- headerDoc=abstract;uid=//apple_ref/c/data/K_AISDK_CONFIG_WAKEUP_MODEL_MD5;name=start --><!-- begin abstract --></p>
+<p>&#33719;&#21462;&#21796;&#37266;&#27169;&#22411;&#30340;MD5&#65292;&#20165;&#25903;&#25345;&#33719;&#21462;&#65292;&#19981;&#25903;&#25345;&#35774;&#32622;
+<!-- end abstract --><!-- headerDoc=abstract;uid=//apple_ref/c/data/K_AISDK_CONFIG_WAKEUP_MODEL_MD5;name=end --></p>
+<div class="declaration_indent">
+<pre><!-- headerDoc=declaration;uid=//apple_ref/c/data/K_AISDK_CONFIG_WAKEUP_MODEL_MD5;name=start --><span class="keyword">extern</span> <span class="keyword">const</span> <!-- a logicalPath="//apple_ref/occ/cl/int //apple_ref/occ/tdef/int //apple_ref/occ/tag/int //apple_ref/occ/struct/int //apple_ref/occ/intf/int //apple_ref/doc/anysymbol/int" machineGenerated="true" --><span class="type">int</span><!-- /a --> <a machinegenerated="true" href="index.html#//apple_ref/c/data/K_AISDK_CONFIG_WAKEUP_MODEL_MD5" logicalPath="//apple_ref/occ/econst/K_AISDK_CONFIG_WAKEUP_MODEL_MD5 //apple_ref/occ/data/K_AISDK_CONFIG_WAKEUP_MODEL_MD5" target="_top"><span class="var">K_AISDK_CONFIG_WAKEUP_MODEL_MD5</span></a>; <span class="comment">//AISDK_CONFIG_WAKEUP_BEGIN + 7</span> <!-- headerDoc=declaration;uid=//apple_ref/c/data/K_AISDK_CONFIG_WAKEUP_MODEL_MD5;name=end --></pre>
+</div>
+<hr class="betweenAPIEntries">
 <!-- headerDoc=data;  uid=//apple_ref/c/data/K_AISDK_ERROR_WAKEUP_RECO_CREATE_HANDLE_FAILED;   name=K_AISDK_ERROR_WAKEUP_RECO_CREATE_HANDLE_FAILED -->
 <a name="//apple_ref/c/data/K_AISDK_ERROR_WAKEUP_RECO_CREATE_HANDLE_FAILED"></a>
 <h3><a name="K_AISDK_ERROR_WAKEUP_RECO_CREATE_HANDLE_FAILED">K_AISDK_ERROR_WAKEUP_RECO_CREATE_HANDLE_FAILED</a></h3>
@@ -566,7 +670,7 @@ function disclosure_triangle(elt) {
 <p class="gapBeforeFooter">&nbsp;</p>
 <hr class="afterFooter">
 <div class="hd_copyright_and_timestamp">
-<p class="hd_timestamp">Last Updated: Tuesday, December 18, 2018
+<p class="hd_timestamp">Last Updated: Thursday, May 30, 2019
 </p>
 </div>
 </td>

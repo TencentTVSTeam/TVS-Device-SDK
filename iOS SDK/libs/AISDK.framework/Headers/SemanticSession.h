@@ -35,11 +35,11 @@
 
 @interface SemanticSession : NSObject<SessionDelegate>
 
-@property(nonatomic, assign)id<SemanticSessionDelegate> delegate;
+@property(nonatomic, weak)id<SemanticSessionDelegate> delegate;
 @property(nonatomic, strong)dispatch_queue_t semanticQueue;
 
 /*!
- * @brief 在线二次识别接口，结果通过回调异步回调返回iption
+ * @brief 在线二次识别接口，结果通过回调异步回调返回
  * @param text 以utf8格式编码的文本串，以'\0'结尾
  * @param userdata 自定义数据
  * @param flags 控制标志，参考K_AISDK_FLAG_SEMANTIC_*常量定义。默认设置为0即可
