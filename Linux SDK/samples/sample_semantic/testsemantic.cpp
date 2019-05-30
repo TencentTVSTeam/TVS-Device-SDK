@@ -67,7 +67,7 @@ int main(int argc, char *argv[])
     //设置回调函数
     aisdkSetCallback(callback);
     //初始化SDK
-    int res = aisdkInit(".", "1234", "asdf");
+    int res = aisdkInit(".", "your_app_key", "your_access_token", "your_dsn");
     if(res != 0) {
         std::cerr << "init iva fail, err:" << res << std::endl;
         return -2;

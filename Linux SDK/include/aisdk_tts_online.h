@@ -40,7 +40,7 @@ const int AISDK_CONFIG_TTS_ONLINE_BEGIN = 4000;
 /**
  * @see aisdkSetConfig()
  *
- * @brief 配置TTS的音量大小。
+ * @brief 配置TTS的音量大小，默认值50
  *
  * ## 功能
  * 配置TTS的音量大小。仅支持beta引擎。
@@ -57,7 +57,7 @@ const int AISDK_CONFIG_TTS_VOLUME = AISDK_CONFIG_TTS_ONLINE_BEGIN + 1;
 /**
  * @see aisdkSetConfig()
  *
- * @brief 配置TTS的环境
+ * @brief 配置TTS的环境，默认正式环境
  *
  * ## 功能
  * 配置TTS的环境。
@@ -70,10 +70,11 @@ const int AISDK_CONFIG_TTS_VOLUME = AISDK_CONFIG_TTS_ONLINE_BEGIN + 1;
  * ```
  */
 const int AISDK_CONFIG_TTS_ENV_TYPE = AISDK_CONFIG_TTS_ONLINE_BEGIN + 2;
+
 /**
  * @see aisdkSetConfig()
  *
- * @brief 配置TTS的角色
+ * @brief 配置TTS的角色，默认值0，有服务端选择
  *
  * ## 功能
  * 配置TTS的角色。
@@ -106,7 +107,7 @@ const int AISDK_RESULT_CODE_TTS_DATA = 0;
 const int AISDK_RESULT_CODE_TTS_LAST_DATA = 1;
 
 /**
- * @brief TTS转换接口， TTS结果通过回调异步回调返回
+ * @brief TTS合成接口， TTS结果通过回调异步回调返回
  * @param text 需要转语音的文本，以utf8格式编码的文本串，以'\0'结尾
  * @param textLen  文本长度
  * @param userData 自定义数据
@@ -116,7 +117,7 @@ const int AISDK_RESULT_CODE_TTS_LAST_DATA = 1;
 AISDK_API_EXPORTS int aisdkText2Speech(const char* text, int textLen, void* userData, int len);
 
 /**
- * @brief TTS转换接口， TTS结果通过回调异步回调返回
+ * @brief TTS合成接口， TTS结果通过回调异步回调返回
  * @param text 需要转语音的文本，以utf8格式编码的文本串，以'\0'结尾
  * @param textLen  文本长度
  * @param userData 自定义数据
@@ -126,6 +127,7 @@ AISDK_API_EXPORTS int aisdkText2Speech(const char* text, int textLen, void* user
  * @deprecated 不可用
  */
 AISDK_API_EXPORTS int aisdkText2SpeechEx(int languageType, const char* text, int textLen, void* userData, int len);
+
 /**
  * @brief 取消所有的TTS请求
  * @warning 取消后， 所有的tts请求结果不再返回。

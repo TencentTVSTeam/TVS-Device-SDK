@@ -47,7 +47,7 @@ const int AISDK_ERROR_COMMON_NOT_INITIALIZED = 2;
  */
 const int AISDK_ERROR_COMMON_INTERNAL_ERROR = 3;
 /**
- * @brief 语音超时
+ * @brief 语音超时（已废弃）
  */
 //const int AISDK_ERROR_COMMON_VOICE_TIMEOUT = 4;
 
@@ -65,13 +65,17 @@ const int AISDK_ERROR_COMMON_NETWORK_RESPONSE_FAIL = 6;
  * @brief 网络请求超时
  */
 const int AISDK_ERROR_COMMON_NETWORK_TIMEOUT = 7;
-// SDK配置文件不存在
+
+/**
+ * @brief SDK配置文件不存在（已废弃）
+ */
 // const int AISDK_ERROR_COMMON_CONFIG_DOES_NOT_EXIST = 8;
 
 /**
  * @brief 传入参数错误或不合法
  */
 const int AISDK_ERROR_COMMON_PARAM_INVALID = 9;
+
 /**
  * @brief 服务返回异常
  */
@@ -93,15 +97,15 @@ const int AISDK_CONFIG_COMMON_BEGIN = 0;
  *
  * @see aisdkSetConfig()
  *
- * @brief 配置网络环境
+ * @brief 配置网络环境，默认正式环境
  *
  * 配置项关键字。
  * ## 功能
  * 配置网络环境（服务器）
  * ## 值
- *  AISDK_CONFIG_VALUE_ENV_TYPE_FORMAL-正式环境
- *
- *  AISDK_CONFIG_VALUE_ENV_TYPE_TEST-测试环境
+ *  AISDK_CONFIG_VALUE_ENV_TYPE_FORMAL - 正式环境
+ *  AISDK_CONFIG_VALUE_ENV_TYPE_TEST - 测试环境
+ *  AISDK_CONFIG_VALUE_ENV_TYPE_EXP - 体验环境
  * ## 示例：
  * ```
  * //设置环境为测试环境
@@ -115,7 +119,7 @@ const int AISDK_CONFIG_ENV_TYPE = AISDK_CONFIG_COMMON_BEGIN + 1;
 /**
  * @see aisdkSetConfig()
  *
- * @brief 配置TTS返回音频格式
+ * @brief 配置TTS返回音频格式，默认WAV（PCM）格式
  *
  * 配置项关键字。
  * ## 功能
@@ -142,7 +146,7 @@ const int AISDK_CONFIG_TTS_TYPE = AISDK_CONFIG_COMMON_BEGIN + 2;
  *
  * @see aisdkSetConfig()
  *
- * @brief 配置请求的语音格式
+ * @brief 配置语音识别请求的音频格式，默认SPEEX格式
  *
  * 配置项关键字。
  * ## 功能
@@ -150,23 +154,24 @@ const int AISDK_CONFIG_TTS_TYPE = AISDK_CONFIG_COMMON_BEGIN + 2;
  * ## 值
  * 值|说明
  * --|--
- * 1|pcm
- * 2|wav
- * 4|pcm
+ * 1|PCM
+ * 2|WAV
+ * 4|SPEEX
  * 5|AMR
+ * 7|OPUS
+ * 8|MP3
  * ## 示例：
  * ```
- * // 配置语音识别的语音编码格式为wav
+ * // 配置语音识别的语音编码格式为PCM
  * aisdkSetConfig(AISDK_CONFIG_AUDIO_FORMAT,"1")
  * ```
  */
 const int AISDK_CONFIG_AUDIO_FORMAT = AISDK_CONFIG_COMMON_BEGIN + 3;
 
-
 /**
  * @see aisdkSetConfig()
  *
- * @brief 配置网络请求超时时间
+ * @brief 配置网络请求超时时间，默认5s
  *
  * 配置项关键字。
  * ## 功能
@@ -197,13 +202,14 @@ const int AISDK_CONFIG_REQ_TIMEOUT = AISDK_CONFIG_COMMON_BEGIN + 4;
  * // 设置vad灵敏度为1.1
  * aisdkSetConfig(AISDK_CONFIG_VAD_RATION,"1.1")
  * ```
+ * @note 如果要修改默认配置，此配置需要在init之前设置
  */
 const int AISDK_CONFIG_VAD_RATION = AISDK_CONFIG_COMMON_BEGIN + 5;
 
 /**
  * @see aisdkSetConfig()
  *
- * @brief 配置LOG打印级别
+ * @brief 配置LOG打印级别，默认DEBUG级别
  *
  * 配置项关键字。
  * ## 功能
@@ -227,7 +233,7 @@ const int AISDK_CONFIG_LOG_LEVEL = AISDK_CONFIG_COMMON_BEGIN + 6;
 /**
  * @see aisdkSetConfig()
  *
- * @brief 配置语音识别引擎
+ * @brief 配置语音识别引擎，默认值0，由服务端选择引擎
  *
  * 配置项关键字。
  * ## 功能
@@ -252,7 +258,7 @@ const int AISDK_CONFIG_VOICE_ENGINE = AISDK_CONFIG_COMMON_BEGIN + 7;
 /**
  * @see aisdkSetConfig()
  *
- * @brief 配置TTS引擎
+ * @brief 配置TTS引擎，默认值0，由云端选择引擎
  *
  * 配置项关键字。
  * ## 功能
@@ -277,7 +283,7 @@ const int AISDK_CONFIG_TTS_ENGINE = AISDK_CONFIG_COMMON_BEGIN + 8;
 /**
  * @see aisdkSetConfig()
  *
- * @brief 配置位置信息
+ * @brief 配置位置信息，配置后SDK会在后续的请求中带上位置信息
  *
  * 配置项关键字。
  * ## 功能
@@ -296,7 +302,7 @@ const int AISDK_CONFIG_LBS_DATA = AISDK_CONFIG_COMMON_BEGIN + 9;
 /**
  * @see aisdkSetConfig()
  *
- * @brief 配置语音识别模型
+ * @brief 配置语音识别模型，默认值10
  *
  * 配置项关键字。
  * ## 功能
@@ -351,8 +357,6 @@ const int AISDK_CONFIG_CHAT_BOT = AISDK_CONFIG_COMMON_BEGIN + 11;
  */
 const int AISDK_CONFIG_APP_KEY_AND_TOKEN = AISDK_CONFIG_COMMON_BEGIN + 12;
 
-
-
 /**
  * @see aisdkSetConfig()
  *
@@ -377,7 +381,7 @@ const int AISDK_CONFIG_LOG_SYNC = AISDK_CONFIG_COMMON_BEGIN + 14;
 /**
  * @see aisdkGetConfig()
  *
- * @brief 获得设备当前GUID
+ * @brief 获得设备当前GUID，不支持设置
  *
  * ## 功能
  * 获得设备当前GUID
@@ -392,7 +396,7 @@ const int AISDK_CONFIG_GUID = AISDK_CONFIG_COMMON_BEGIN + 15;
 /**
  * @see aisdkGetConfig()
  *
- * @brief 获得设备当前QUA
+ * @brief 获得设备当前QUA，不支持设置，设置请使用aisdkSetQUA接口
  *
  * ## 功能
  * 获得设备当前QUA
@@ -402,12 +406,12 @@ const int AISDK_CONFIG_GUID = AISDK_CONFIG_COMMON_BEGIN + 15;
  * aisdkGetConfig(AISDK_CONFIG_QUA)
  * ```
  */
-const int AISDK_CONFIG_QUA= AISDK_CONFIG_COMMON_BEGIN + 16;
+const int AISDK_CONFIG_QUA = AISDK_CONFIG_COMMON_BEGIN + 16;
 
 /**
  * @see aisdkSetConfig()
  *
- * @brief 配置LOG打印的时间格式
+ * @brief 配置LOG打印的时间格式，默认值1
  *
  * 配置项关键字。
  * ## 功能
@@ -424,8 +428,6 @@ const int AISDK_CONFIG_QUA= AISDK_CONFIG_COMMON_BEGIN + 16;
  * ```
  */
 const int AISDK_CONFIG_LOG_TIME_FORMAT = AISDK_CONFIG_COMMON_BEGIN + 17;
-
-
 
 /**
  * @see aisdkSetConfig()
@@ -496,13 +498,39 @@ const int AISDK_CONFIG_RSP_VERSION = AISDK_CONFIG_COMMON_BEGIN + 21;
  */
 const int AISDK_CONFIG_LOG_MAX_SIZE = AISDK_CONFIG_COMMON_BEGIN + 22;
 
+/**
+ * @see aisdkSetConfig()
+ *
+ * @brief 配置APP版本号，内部使用
+ *
+ * ## 功能
+ * 配置APP版本号
+ *
+ */
+const int AISDK_CONFIG_APP_VERSION_NUM = AISDK_CONFIG_COMMON_BEGIN + 23;
+
+/**
+ * @see aisdkSetConfig()
+ *
+ * @brief 配置是否开启沙箱环境，默认关闭
+ *
+ * ## 功能
+ * 配置是否开启沙箱环境，默认关闭
+ * ## 值
+ * 值|说明
+ * --|--
+ * AISDK_CONFIG_VALUE_ENABLE|开启沙箱环境
+ * AISDK_CONFIG_VALUE_DISABLE|关闭沙箱环境
+ *
+ */
+const int AISDK_CONFIG_OPEN_SANDBOX = AISDK_CONFIG_COMMON_BEGIN + 24;
+
 // 通用配置项，key的结束值
 const int AISDK_CONFIG_COMMON_END = 999;
 
 // 配置项的值 begin
 
 /**
- *
  * 开启
  */
 const char* const AISDK_CONFIG_VALUE_ENABLE = "1";
@@ -512,6 +540,7 @@ const char* const AISDK_CONFIG_VALUE_ENABLE = "1";
  */
 const char* const AISDK_CONFIG_VALUE_DISABLE = "0";
 
+// 环境配置参数
 /**
  * 网络环境：正式环境
  */
@@ -523,12 +552,18 @@ const char* const AISDK_CONFIG_VALUE_ENV_TYPE_FORMAL = "0";
 const char* const AISDK_CONFIG_VALUE_ENV_TYPE_TEST = "1";
 //
 /**
+ * 网络环境：体验环境
+ */
+const char* const AISDK_CONFIG_VALUE_ENV_TYPE_EXP = "2";
+
+// TTS音频格式配置参数
+/**
  * TTS格式：MP3
  */
 const char* const AISDK_CONFIG_VALUE_TTS_TYPE_MP3 = "0";
 //
 /**
- * TTS格式：WAV
+ * TTS格式：WAV（PCM）
  */
 const char* const AISDK_CONFIG_VALUE_TTS_TYPE_WAV = "1";
 //
@@ -536,7 +571,8 @@ const char* const AISDK_CONFIG_VALUE_TTS_TYPE_WAV = "1";
  * TTS格式：AMR
  */
 const char* const AISDK_CONFIG_VALUE_TTS_TYPE_AMR = "2";
-// Log begin
+
+// Log级别配置参数
 /**
  * 日志级别，debug
  */
@@ -557,9 +593,8 @@ const char* const AISDK_CONFIG_VALUE_LOG_LEVEL_ERROR = "2";
  * 日志级别，none
  */
 const char* const AISDK_CONFIG_VALUE_LOG_LEVEL_NONE = "1";
-// Log info
-// 配置项的值 end
 
+// 网络类型配置参数
 /**
  * APN类型：未知
  */
@@ -621,30 +656,32 @@ typedef void (AISDK_CALL_CONV *AISDK_CALLBACK)(int cmd, char* data, int dataLen,
  * @param in callbackPtr 回调函数指针
  * @return
  * @note
- *
  */
 AISDK_API_EXPORTS void aisdkSetCallback(AISDK_CALLBACK callbackPtr);
 
 /**
  * @brief 初始化函数
  * @param in folderPath 配置路径
- * @param in appKey 应用的appkey，需要从平台申请
- * @param in accessToken 应用的access token
+ * @param in appKey 应用的appkey，需要从平台申请，接入方必传
+ * @param in accessToken 应用的access token，需要从平台申请，接入方必传
+ * @param in dsn 设备的序列号（DSN），终端的唯一标识，接入方必传
  * @return <em>0</em>:ok others:fail。 错误码定义见AISDK_ERROR_*常量
  * @note
  */
-AISDK_API_EXPORTS int aisdkInit(const char* folderPath, const char* appKey, const char* accessToken);
+AISDK_API_EXPORTS int aisdkInit(const char* folderPath, const char* appKey, const char* accessToken, const char* dsn);
 
 /**
  * @brief 初始化函数
  * @param in folderPath 配置路径
  * @param in sharedFilePath 共享文件路径（用于多个接入应用共享的文件存储）
- * @param in appKey 应用的appkey，需要从平台申请
- * @param in accessToken 应用的access token
+ * @param in appKey 应用的appkey，需要从平台申请，接入方必传
+ * @param in accessToken 应用的access token，需要从平台申请，接入方必传
+ * @param in dsn 设备的序列号（DSN），终端的唯一标识，接入方必传
  * @return <em>0</em>:ok others:fail。 错误码定义见AISDK_ERROR_*常量
  * @note
  */
-AISDK_API_EXPORTS int aisdkFullInit(const char* folderPath, const char* sharedFilePath, const char* appKey, const char* accessToken);
+AISDK_API_EXPORTS int aisdkFullInit(const char* folderPath, const char* sharedFilePath, const char* appKey, const char* accessToken, const char* dsn);
+
 /**
  * @brief 设置QUA
  * @param platform  平台
@@ -680,6 +717,7 @@ AISDK_API_EXPORTS void aisdkSetQUA(const char* platform,
  *      等等以AISDK_CONFIG_*开头的常量定义
  */
 AISDK_API_EXPORTS void aisdkSetConfig(int key, const char* value);
+
 /**
  * @brief 获得相应配置项的值
  * @param in key 配置项关键字
@@ -692,6 +730,7 @@ AISDK_API_EXPORTS const char* aisdkGetConfig(int key);
 * @return 0：ok，other：fail。 错误码定义见AISDK_ERROR_*常量
 */
 AISDK_API_EXPORTS int aisdkRelease();
+
 /**
  * @brief 获得SDK版本号
  * @return 版本号

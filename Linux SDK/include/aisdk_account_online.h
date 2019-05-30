@@ -65,7 +65,7 @@ typedef struct{
  * @param openId 账户openId
  * @param refreshToken 账户refreshToken
  * @param accessToken  账户accessToken
- * @param qbId 账户qbId
+ * @param qbId 账户qbId，没有的话传空串即可
  * @param expireTime 账户失效时间，微信账户需要填写
  * @param isNeedRefresh 是否需要SDK刷新token，微信账户需要填写， 0:不需要，1:需要。
  * @return 0
@@ -79,7 +79,6 @@ AISDK_API_EXPORTS int aisdkSetAccount(int accountType,
                                        long long expireTime,
                                        int isNeedRefresh);
 
-AISDK_API_EXPORTS int aisdkSetAccountByClientId(const char* clientId, int isNeedRefresh);
 /**
  * @brief 获得当前账号信息
  * @param account 返回的账户信息
@@ -88,22 +87,29 @@ AISDK_API_EXPORTS int aisdkSetAccountByClientId(const char* clientId, int isNeed
 AISDK_API_EXPORTS int aisdkGetAccount(AISDKAccount* account);
 
 /**
+ * 设置clientId形式的账户信息
+ * @param clientId 通过叮当手机端SDK登陆后获取的账号信息
+ * @param isNeedRefresh 是否需要SDK刷新token，微信账户需要填写， 0:不需要，1:需要。
+ * @return 0
+ */
+AISDK_API_EXPORTS int aisdkSetAccountByClientId(const char* clientId, int isNeedRefresh);
+
+/**
  * @brief 获得clientId形式的账号信息
- * @param client ，请传入一个空指针，
- * @return 0:表示成功返回clientId, 其他表示没有账户信息
+ * @param client ，传出clientId，SDK内部分配内存，请传入一个空指针，并在使用完后释放内存
+ * @return 0:表示成功返回clientId，其他表示没有账户信息
  */
 AISDK_API_EXPORTS int aisdkGetAccountClientId(char** client);
+
 /**
  * @brief 清空账号信息
  */
 AISDK_API_EXPORTS void aisdkClearAccount();
 
 /**
- * @brief 上报账号的关系
+ * @brief 上报账号的关系（内部使用，请勿调用）
  */
 AISDK_API_EXPORTS int aisdkReportRelation(const char* qbGuid, void* userData, int len);
-
-
 
 #ifdef __cplusplus
 }

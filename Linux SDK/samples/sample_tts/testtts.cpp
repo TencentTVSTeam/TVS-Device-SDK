@@ -97,7 +97,7 @@ int main(int argc, char *argv[])
     //设置回调函数
     aisdkSetCallback(callback);
     //初始化
-    int res = aisdkInit(".", "1234", "asdf");
+    int res = aisdkInit(".", "your_app_key", "your_access_token", "your_dsn");
     aisdkSetConfig(AISDK_CONFIG_ENV_TYPE,AISDK_CONFIG_VALUE_ENV_TYPE_FORMAL);
     aisdkSetConfig(AISDK_CONFIG_TTS_TYPE,AISDK_CONFIG_VALUE_TTS_TYPE_WAV);
     //可以设置TTS引擎。
