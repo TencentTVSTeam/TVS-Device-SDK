@@ -5,5 +5,8 @@
         <item>@string/text_to_semantic_name</item>
         <item>@string/tts_name</item>
         <item>@string/wakeup_name</item>
+        <item>@string/oneshot_name</item>
+        <item>@string/custom_wakeup_name</item>
+        <item>@string/wakeup_recognize_name</item>
     </string-array>
 </resources>

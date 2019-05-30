@@ -1,6 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <group
+        android:id="@+id/for_test_mode"
+        android:checkableBehavior="single">
+        <item
+            android:title="测试"
+            android:enabled="false"
+            android:checkable="false"/>
+        <item android:id="@+id/test_mode"
+            android:title="测试模式"
+            android:checked="false"/>
+        <item android:id="@+id/normal_mode"
+            android:title="普通模式"
+            android:checked="true"/>
+    </group>
+    <group
         android:id="@+id/record_mode"
         android:checkableBehavior="single">
         <item
@@ -21,12 +35,14 @@
             android:title="语音识别类型"
             android:enabled="false"
             android:checkable="false"/>
-        <item android:id="@+id/speech_2_answer"
-            android:title="语音交互"
-            android:checked="true"/>
         <item android:id="@+id/speech_2_txt"
-            android:title="语音转文字" />
+            android:title="语音转文字"
+            android:checked="true"/>
         <item android:id="@+id/speech_2_semantic"
             android:title="语音转语义" />
+        <item android:id="@+id/speech_2_timeout"
+            android:title="设置静音超时时长"
+            android:checkable="false"/>
     </group>
+
 </menu>

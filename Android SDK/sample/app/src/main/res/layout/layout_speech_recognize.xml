@@ -2,28 +2,83 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".SpeechRecognizeActivity" >
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context=".SpeechRecognizeActivity">
 
     <ImageButton
         android:id="@+id/speech_recognize_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"
-        android:src="@drawable/vwimageselector" >
-    </ImageButton>
-    
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/vwimageselector"></ImageButton>
+
+    <Button
+        android:id="@+id/speech_upload_dict"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_toRightOf="@+id/speech_recognize_btn"
+        android:text="上传联系人" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/speech_recognize_btn">
-        <include android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            layout="@layout/include_log"/>
+
+        <include
+            layout="@layout/include_log"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
     </LinearLayout>
+
+    <ScrollView
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:visibility="gone">
+
+
+        <LinearLayout
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="type:" />
+
+            <EditText
+                android:id="@+id/edit_type"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:digits="1234567890"
+                android:text="3" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="语音上下文内容:" />
+
+            <EditText
+                android:id="@+id/voice_context"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="{content:选择第一个地点}" />
+
+            <Button
+                android:id="@+id/set_voice_context"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="设置语音上下文" />
+
+        </LinearLayout>
+    </ScrollView>
 
 </RelativeLayout>

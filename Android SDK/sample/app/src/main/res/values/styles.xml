@@ -6,4 +6,17 @@
     <style name="AppTheme.NoActionBar" parent="android:Theme.Holo.Light.NoActionBar">
     </style>
 
+    <!-- 给悬浮网页窗口所用，设置frame为null才能自己绘制外框，但是设置了frame为null需要自己定义view居中 -->
+    <style name="WeLauncherDialogStyle" parent="@android:style/Theme.Dialog">
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:backgroundDimAmount">0.6</item>
+        <item name="android:windowContentOverlay">@null</item>
+    </style>
+
 </resources>

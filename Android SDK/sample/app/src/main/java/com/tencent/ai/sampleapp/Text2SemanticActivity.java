@@ -1,13 +1,17 @@
 package com.tencent.ai.sampleapp;
 
 import android.os.Bundle;
+import android.os.Environment;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.tencent.ai.sampleapp.util.FileUtil;
+import com.tencent.ai.sampleapp.util.JSONTool;
 import com.tencent.ai.sdk.tr.ITrListener;
+import com.tencent.ai.sdk.tr.TrParameters;
 import com.tencent.ai.sdk.tr.TrSession;
 
 /**
@@ -22,6 +26,9 @@ public class Text2SemanticActivity extends BaseSampleActivity implements View.On
     /** SDK TrSession实例 */
     private TrSession mTrSession;
 
+    private String res = Environment.getExternalStorageDirectory().getAbsolutePath()
+            + "/tencent/dingdang/res/tsr/";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,7 +41,20 @@ public class Text2SemanticActivity extends BaseSampleActivity implements View.On
         text2SemanticBtn.setOnClickListener(this);
 
         // 初始化Session
-        mTrSession = TrSession.getInstance(this, mTrListener, 0, "", "");
+        TrParameters params = new TrParameters();
+        res = FileUtil.getModelFilePath(this);
+        params.setOfflineSemanticResDir(res, false);
+        params.setOfflineVoiceResDir(res, false);
+        params.setOnlineVoiceResDir(res, false);
+        params.setWakeupResDir(res,false);
+        params.setMixModeConfigDir(res);
+        mTrSession = TrSession.getInstance(this, params);
+        mTrSession.init(mTrListener);
+
+//        mTrSession = new TrSession(this, mTrListener, "", "");
+//        mTrSession = TrSession.getInstance(this, mTrListener, 0, "","");
+//        mTrSession = TrSession.getInstance(this,mTrListener, 0, res, "", "");
+
     }
 
     @Override
@@ -83,27 +103,29 @@ public class Text2SemanticActivity extends BaseSampleActivity implements View.On
         }
 
         @Override
-        public void onTrVoiceMsgProc(long uMsg, long wParam, String lParam, Object extraData) {
-            Log.i(TAG, "onTrVoiceMsgProc - uMsg : " + uMsg + ", wParam : " + wParam + ", lParam : " + lParam );
+        public void onTrVoiceMsgProc(long trMsgCode, long cmd, String voiceResult, Object o) {
+            Log.i(TAG, "onTrVoiceMsgProc - trMsgCode : " + trMsgCode + ", cmd : " + cmd + ", voiceResult : " + voiceResult);
         }
 
         @Override
-        public void onTrSemanticMsgProc(long uMsg, long wParam, int cmd, String lParam, Object extraMsg) {
-            Log.i(TAG, "onTrSemanticMsgProc - uMsg : " + uMsg + ", wParam : " + wParam + ", lParam : " + lParam + ", extraMsg : " + extraMsg);
+        public void onTrSemanticMsgProc(long trMsgCode, long errCode, int cmd, String semanticResult, Object extraMsg) {
+            Log.i(TAG, "onTrSemanticMsgProc - trMsgCode : " + trMsgCode + ", errCode : " + errCode + ", semanticResult : " + semanticResult + ", extraMsg : " + extraMsg);
             printLog("文本 -> 语义 结束，结果为 ：");
-            printLog(lParam);
+            String result = JSONTool.stringToJSON(semanticResult);
+            printLog(result);
+
         }
 
         @Override
-        public void onTrVoiceErrMsgProc(long uMsg, long errCode, String lParam, Object extraData) {
-            Log.e(TAG, "onTrVoiceErrMsgProc - uMsg : " + uMsg + ", errCode : " + errCode + ", lParam : " + lParam);
+        public void onTrVoiceErrMsgProc(long trMsgCode, long errCode, String trErrorMsg, Object o) {
+            Log.e(TAG, "onTrVoiceErrMsgProc - uMsg : " + trMsgCode + ", errCode : " + errCode + ", lParam : " + trErrorMsg);
         }
 
         @Override
-        public void onTrSemanticErrMsgProc(long uMsg, long errCode, int cmd, String lParam, Object extraMsg) {
-            Log.i(TAG, "onTrSemanticErrMsgProc - uMsg : " + uMsg + ", errCode : " + errCode + ", cmd : " + cmd
-                    + ", lParam : " + lParam + ", extraMsg : " + extraMsg);
-            printLog("文本 -> 语义 出现错误，errCode ：" + errCode + ", cmd : " + cmd +", msg : " + lParam);
+        public void onTrSemanticErrMsgProc(long trMsgCode, long errCode, int cmd, String trErrorMsg, Object extraMsg) {
+            Log.i(TAG, "onTrSemanticErrMsgProc - trMsgCode : " + trMsgCode + ", errCode : " + errCode + ", cmd : " + cmd
+                    + ", trErrorMsg : " + trErrorMsg + ", extraMsg : " + extraMsg);
+            printLog("文本 -> 语义 出现错误，errCode ：" + errCode + ", cmd : " + cmd +", msg : " + trErrorMsg);
         }
     };
 }

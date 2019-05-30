@@ -26,8 +26,11 @@ public class PcmRecorder extends Thread {
 	private RecordListener mRecordListener;
 
 	public PcmRecorder(RecordListener listener) {
+		super("PcmRecorder");
 		mRecordListener = listener;
 	}
+
+	public boolean isPlainAudio = true;
 
 	@Override
 	public synchronized void start() {

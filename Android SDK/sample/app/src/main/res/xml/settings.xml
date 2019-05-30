@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory android:title="环境设置">
+        <ListPreference
+            android:defaultValue="0"
+            android:entries="@array/env_list"
+            android:entryValues="@array/env_list_value"
+            android:key="env_switch"
+            android:summary="@string/env_normal"
+            android:title="切换环境" />
+        <SwitchPreference
+            android:checked="false"
+            android:key="sanbox"
+            android:title="是否开启沙箱" />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="录音保存">
+        <SwitchPreference android:key="save_recognize"
+            android:checked="false"
+            android:title="保存识别录音"
+            android:summary="保存在线识别录音文件"/>
+        <SwitchPreference android:key="save_wakeup"
+            android:checked="false"
+            android:title="保存唤醒录音"
+            android:summary="将所有唤醒保存为一个文件"/>
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="VAD">
+        <SwitchPreference android:key="vad_cloud"
+            android:checked="true"
+            android:title="云端vad"/>
+        <SwitchPreference android:key="vad_local"
+            android:checked="false"
+            android:title="本地vad"/>
+        <SwitchPreference android:key="vad_only_detect"
+            android:checked="false"
+            android:title="只检查vad"
+            android:summary="语音识别时，只检查vad状态，不进行识别"/>
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="语音识别">
+        <SwitchPreference android:key="ignore_wakeup"
+            android:checked="false"
+            android:title="唤醒不中断识别"
+            android:summary="识别过程中,不响应唤醒"
+            android:visibility="gone"
+            />
+
+        <EditTextPreference android:key="audio_peer_size"
+            android:title="单次语音识别最小网络包大小,单位byte"
+            />
+        <EditTextPreference android:key="online_sil_timeout"
+            android:title="静音超时时间,单位毫秒"
+            />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="唤醒音频">
+        <SwitchPreference android:key="save_wakeup_report"
+            android:checked="false"
+            android:title="保存并上报唤醒录音"
+            android:summary="每次唤醒保存一个文件"/>
+        <ListPreference
+            android:defaultValue="0"
+            android:entries="@array/wakeup_network_list"
+            android:entryValues="@array/wakeup_network_list_value"
+            android:key="wakeup_report_network_type"
+            android:summary="@string/env_normal"
+            android:title="上传唤醒音频的网络类型" />
+        <Preference android:key="wakeup_report_save_path"
+            android:text="唤醒音频保存路径"/>
+        <EditTextPreference android:key="wakeup_report_save_size"
+            android:inputType="number|phone"
+            android:digits="1234567890"
+            android:title="本地保存唤醒音频的最大数量"/>
+    </PreferenceCategory>
+</PreferenceScreen>

@@ -6,6 +6,8 @@ import android.os.Looper;
 import android.os.Message;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -37,6 +39,18 @@ public class BaseSampleActivity extends Activity implements Handler.Callback{
     protected void initView() {
         mLogTv = (TextView) findViewById(R.id.log_tv);
         mLogScrollView = (ScrollView)findViewById(R.id.log_scroller);
+        mLogScrollView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                if(mLogScrollView != null) {
+                    mLogScrollView.post(new Runnable() {
+                        public void run() {
+                            mLogScrollView.fullScroll(View.FOCUS_DOWN);
+                        }
+                    });
+                }
+            }
+        });
 
         mHandler = new Handler(Looper.getMainLooper(), this);
     }
@@ -67,7 +81,7 @@ public class BaseSampleActivity extends Activity implements Handler.Callback{
                 String printLog = (String)msg.obj;
                 if (null != mLogTv) {
                     mLogTv.append(printLog + "\n");
-                    mLogScrollView.fullScroll(ScrollView.FOCUS_DOWN);
+//                    mLogScrollView.fullScroll(ScrollView.FOCUS_DOWN);
                 }
                 break;
         }

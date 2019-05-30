@@ -1,57 +1,94 @@
 package com.tencent.ai.sampleapp;
 
+import android.annotation.TargetApi;
+import android.app.Dialog;
+import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 
+import com.tencent.ai.sampleapp.record.LocalPcmReader;
 import com.tencent.ai.sampleapp.record.PcmRecorder;
+import com.tencent.ai.sampleapp.util.FileUtil;
+import com.tencent.ai.sampleapp.util.JSONTool;
 import com.tencent.ai.sdk.control.SpeechManager;
 import com.tencent.ai.sdk.tr.ITrListener;
+import com.tencent.ai.sdk.tr.TrParameters;
 import com.tencent.ai.sdk.tr.TrSession;
-import com.tencent.ai.sdk.tts.ITtsInitListener;
-import com.tencent.ai.sdk.tts.ITtsListener;
-import com.tencent.ai.sdk.tts.TtsSession;
+import com.tencent.ai.sdk.tr.VoiceConst;
 import com.tencent.ai.sdk.utils.ISSErrors;
 
-import org.json.JSONException;
-import org.json.JSONObject;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 /**
  * 语音语义识别
  * <br/>
  * 通过语音直接请求语义，包括自动检测说话停止、按住发言两种方式
  */
-public class SpeechRecognizeActivity extends BaseSampleActivity implements PcmRecorder.RecordListener{
+public class SpeechRecognizeActivity extends BaseSampleActivity implements PcmRecorder.RecordListener, View.OnClickListener{
 
     private static final String TAG = "SpeechRecognizeActivity";
+    private static final String TEST_TAG = "TENCENT_TEST";
 
     /** 语音识别触发按钮 */
     private ImageButton mSpeechRecognizeBtn;
     /** 用于切换按钮的事件，手动和自动录音模式 */
     private AutoModeClickListener mAutoModeClickListener;
     private ManualModeTouchListener mManualModeTouchListener;
-
-    /** 语音识别的类型 */
-    private int mSpeechRecognizeType;
-    /** 语音->文本->语义->TTS */
-    private static final int SPEECH_RECOGNIZE_TYPE_ALL = 0;
-    /** 语音->文本->语义 */
-    private static final int SPEECH_RECOGNIZE_TYPE_SEMANTIC = 1;
-    /** 语音->文本 */
-    private static final int SPEECH_RECOGNIZE_TYPE_TXT = 2;
+    private Button mSpeechUploadBtn;
 
     /** SDK语音&语义识别的Session */
     private TrSession mTrSession;
-    /** SDK TtsSession, 当语音识别类型为 SPEECH_RECOGNIZE_TYPE_ALL 的时候有效 */
-    private TtsSession mTTSSession;
 
     /** 录音线程 */
     private PcmRecorder mPcmRecorder;
+    private Button mVoiceContextBtn;
+    private EditText mVoiceType;
+    private EditText mVoiceContext;
+
+    private String res = "";
+    private boolean mTestMode = false;
+    private List<String> mResultRecord;
+    private Handler mHandler = new Handler();
+    private int mHasResult = 0;
+    private static SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd-HH:mm:ss.SSS");
+
+    private Runnable mResultTimeoutChecker = new Runnable() {
+        @Override
+        public void run() {
+            printLog("Result timeout!!");
+            stopRecord();
+            if (mTestMode) {
+                mResultRecord.add("ERROR: NO RESPONSE"+", time:"+sdf.format(new Date()));
+                Log.d(TEST_TAG, "Will start to test");
+                mHandler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        startRecognize();
+                    }
+                }, 300);
+            }
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,17 +98,49 @@ public class SpeechRecognizeActivity extends BaseSampleActivity implements PcmRe
         // 初始化View
         initView();
         mSpeechRecognizeBtn = (ImageButton)findViewById(R.id.speech_recognize_btn);
+        mSpeechUploadBtn = findViewById(R.id.speech_upload_dict);
+        mVoiceContextBtn = findViewById(R.id.set_voice_context);
+        mVoiceType = findViewById(R.id.edit_type);
+        mVoiceContext = findViewById(R.id.voice_context);
+        mVoiceContextBtn.setOnClickListener(this);
+        mSpeechUploadBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                File contactFile = new File(res+ "/contact.json");
+                if (contactFile.exists()) {
+                    String contactString = FileUtil.getStringWithFile(res+ "/contact.json");
+                    int ret = mTrSession.uploadDict(contactString, TrSession.ISS_TR_MSG_UpLoadDictToLocalStatus);
+                    if (ret == 0) {
+                        printLog("上传联系人成功");
+                    }
+                    printLog("请在检查文件是否存在:" + res+ "/contact.json");
+                }
+            }
+        });
 
         // 选择录音模式：默认为自动检测说话结束
         mAutoModeClickListener = new AutoModeClickListener();
         mManualModeTouchListener = new ManualModeTouchListener();
         onManualModeSet(false);
+//        onFullModeSet(false);
 
-        // 初始化TrSession
-        mTrSession = TrSession.getInstance(this, mTrListener, 0, "", "");
+        // 初始化Session
+//        mTrSession = TrSession.getInstance(this, mTrListener, 0, "", "");
+//        mTrSession.init(mTrListener);
+        res = FileUtil.getModelFilePath(this);
+        TrParameters params = new TrParameters();
+        params.setOnlineVoiceResDir(res, false);
+        params.setOfflineVoiceResDir(res, false);
+        params.setWakeupResDir(res,false);
+        params.setMixModeConfigDir(res);
+        mTrSession = TrSession.getInstance(this, params);
+        mTrSession.init(mTrListener);
 
         // 选择识别类型, 默认语音转文字
-        onRecognizeTypeSet(SPEECH_RECOGNIZE_TYPE_ALL);
+        if (mTestMode) {
+            mSpeechRecognizeBtn.setEnabled(false);
+            LocalPcmReader.initLocalFiles();
+        }
     }
 
     @Override
@@ -85,13 +154,6 @@ public class SpeechRecognizeActivity extends BaseSampleActivity implements PcmRe
         if (null != mTrSession) {
             mTrSession.release();
             mTrSession = null;
-        }
-
-        if(null != mTTSSession)
-        {
-            mTTSSession.stopSpeak();
-            mTTSSession.release();
-            mTTSSession = null;
         }
     }
 
@@ -117,28 +179,103 @@ public class SpeechRecognizeActivity extends BaseSampleActivity implements PcmRe
                 item.setChecked(true);
                 onManualModeSet(true);
             }
-            // 识别类型：语音对话（语音+语义+TTS）
-        }
-        else if (id == R.id.speech_2_answer) {
+            // 测试模式
+        }else if (id == R.id.test_mode) {
             if (!checked) {
                 item.setChecked(true);
-                onRecognizeTypeSet(SPEECH_RECOGNIZE_TYPE_ALL);
+                onTestModeSet(true);
             }
-        }
-        // 识别类型：语音转语义
-        else if (id == R.id.speech_2_txt) {
+        } else if (id == R.id.normal_mode) {
             if (!checked) {
                 item.setChecked(true);
-                onRecognizeTypeSet(SPEECH_RECOGNIZE_TYPE_TXT);
+                onTestModeSet(false);
+            }
+            // 识别类型：语音转文字
+        } else if (id == R.id.speech_2_txt) {
+            if (!checked) {
+                item.setChecked(true);
+                onRecognizeTypeSet(TrSession.ISS_TR_PARAM_VOICE_TYPE_RSP_VOICE);
             }
             // 识别类型：语音转语义
         } else if (id == R.id.speech_2_semantic) {
             if (!checked) {
                 item.setChecked(true);
-                onRecognizeTypeSet(SPEECH_RECOGNIZE_TYPE_SEMANTIC);
+                onRecognizeTypeSet(TrSession.ISS_TR_PARAM_VOICE_TYPE_RSP_ALL);
             }
+        } else if (id == R.id.speech_2_timeout) {
+            new ResetDialog(this).showView();
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.set_voice_context:
+                if (mTrSession != null) {
+                    if (mVoiceType != null && mVoiceContext != null) {
+                        int voiceType = 0;
+                        if (!TextUtils.isEmpty(mVoiceType.getText().toString())) {
+                            voiceType = Integer.valueOf(mVoiceType.getText().toString());
+                        }
+                        String voiceContext = "";
+                        if (!TextUtils.isEmpty(mVoiceContext.getText().toString())) {
+                            voiceContext = mVoiceContext.getText().toString();
+                    }
+                        int ret = mTrSession.setOnlineVoiceContext(voiceType, voiceContext);
+                        if (ret == 0) {
+                            printLog("设置上下文内容成功,type:" + voiceType + ",context=" + voiceContext);
+                        }
+                    }
+                }
+                break;
+        }
+    }
+
+    class ResetDialog extends Dialog {
+        private EditText mEditText;
+        private Button mButton;
+        public ResetDialog(Context context) {
+            super(context, R.style.WeLauncherDialogStyle);
+            setContentView(R.layout.reset_dialog_layout);
+            Window window = getWindow();
+            if (window != null) {
+                WindowManager.LayoutParams params = window.getAttributes();
+                params.gravity = Gravity.CENTER;
+                window.setAttributes(params);
+            }
+            setCanceledOnTouchOutside(false);
+            mEditText = (EditText) findViewById(R.id.editView);
+            mButton = (Button) findViewById(R.id.button);
+            mButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    try {
+                        int timeout = Integer.parseInt(mEditText.getText().toString().toString());
+                        SpeechRecognizeActivity.this.mTrSession.setSlientTimeout(timeout);
+                    } catch (Exception e) {
+
+                    }
+                    dissmissView();
+                }
+            });
+        }
+
+        public void showView() {
+            try {
+                show();
+            } catch (Exception e) {
+                // do nothing
+            }
+        }
+
+        private void dissmissView() {
+            try {
+                dismiss();
+            } catch (Exception e) {
+                // do nothing
+            }
+        }
     }
 
     @Override
@@ -147,6 +284,46 @@ public class SpeechRecognizeActivity extends BaseSampleActivity implements PcmRe
         // 收到录音数据
         if (null != mTrSession) {
             mTrSession.appendAudioData(buffer, bufferSize);
+        }
+    }
+
+    /**
+     * 选择测试模式
+     *
+     * @param test true为测试模式，批量导入音频
+     */
+    private void onTestModeSet(boolean test) {
+        // 按键发言
+        if (test) {
+            printLog("\n当前为测试模式");
+            mTestMode = true;
+            // 选择识别类型, 默认语音转文字
+            mSpeechRecognizeBtn.setEnabled(false);
+            LocalPcmReader.initLocalFiles();
+            if (mResultRecord == null)
+            mResultRecord = new ArrayList<>();
+            mResultRecord.clear();
+            mHandler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    Log.d(TAG, "Begin Test");
+                    startRecognize();
+                }
+            }, 1000);
+        } else {
+            printLog("\n当前为普通模式");
+            mHandler.removeCallbacks(mResultTimeoutChecker);
+            stopRecord();
+            mTrSession.stop();
+            mResultRecord.add("end test"+ ", time:"+sdf.format(new Date()));
+            mHandler.post(new Runnable() {
+                @Override
+                public void run() {
+                    writeTestResult();
+                }
+            });
+            mTestMode = false;
+            mSpeechRecognizeBtn.setEnabled(true);
         }
     }
 
@@ -176,38 +353,16 @@ public class SpeechRecognizeActivity extends BaseSampleActivity implements PcmRe
      *
      * @param type
      */
-    private void onRecognizeTypeSet(int type) {
+    private void onRecognizeTypeSet(String type) {
         if (null == mTrSession) {
             return;
         }
 
-        mSpeechRecognizeType = type;
-        if (type == SPEECH_RECOGNIZE_TYPE_ALL) {
+        mTrSession.setParam(TrSession.ISS_TR_PARAM_VOICE_TYPE, type);
+        if (type == TrSession.ISS_TR_PARAM_VOICE_TYPE_RSP_ALL) {
             printLog("\n当前识别类型：语音 -> 语义，下次开启语音识别生效");
-
-            mTrSession.setParam(TrSession.ISS_TR_PARAM_VOICE_TYPE, TrSession.ISS_TR_PARAM_VOICE_TYPE_RSP_ALL);
-
-            // 初始化TTSSession
-            if (null == mTTSSession) {
-                mTTSSession = new TtsSession(this, mTTSInitListener, "");
-            }
-        } else if (type == SPEECH_RECOGNIZE_TYPE_TXT) {
+        } else if (type == TrSession.ISS_TR_PARAM_VOICE_TYPE_RSP_VOICE) {
             printLog("\n当前识别类型：语音 -> 文本，下次开启语音识别生效");
-
-            mTrSession.setParam(TrSession.ISS_TR_PARAM_VOICE_TYPE, TrSession.ISS_TR_PARAM_VOICE_TYPE_RSP_VOICE);
-
-            if (null != mTTSSession) {
-                mTTSSession.release();
-                mTTSSession = null;
-            }
-        } else if (type == SPEECH_RECOGNIZE_TYPE_SEMANTIC) {
-            printLog("\n当前识别类型：语音 -> 文本，下次开启语音识别生效");
-
-            mTrSession.setParam(TrSession.ISS_TR_PARAM_VOICE_TYPE, TrSession.ISS_TR_PARAM_VOICE_TYPE_RSP_ALL);
-            if (null != mTTSSession) {
-                mTTSSession.release();
-                mTTSSession = null;
-            }
         } else {
             printLog("\n未知类型");
         }
@@ -216,23 +371,33 @@ public class SpeechRecognizeActivity extends BaseSampleActivity implements PcmRe
     /**
      * 开启语音识别
      */
+    @TargetApi(19)
     private void startRecognize() {
         // 停止上次录音
+        if (mTestMode) {
+            if (LocalPcmReader.hasTestFile()) {
+                Log.d(TEST_TAG, "Start one test");
+            } else {
+                writeTestResult();
+                return;
+            }
+        }
         mTrSession.stop();
         stopRecord();
-        if (null != mTTSSession) {
-            mTTSSession.stopSpeak();
-        }
 
         String message = null;
-        int id = mTrSession.start(TrSession.ISS_TR_MODE_CLOUD_REC,false);
+        int id = mTrSession.start(TrSession.ISS_TR_MODE_CLOUD_REC, false);
         if (id != ISSErrors.ISS_SUCCESS) {
             message = "Tr SessionStart error,id = " + id;
             Log.e(TAG, message);
             printLog(message);
         } else {
             // 开始录音
-            mPcmRecorder = new PcmRecorder(this);
+            if (mTestMode) {
+                mPcmRecorder = new LocalPcmReader(this);
+            } else {
+                mPcmRecorder = new PcmRecorder(this);
+            }
             mPcmRecorder.start();
 
             printLog("\n开始语音识别流程：");
@@ -249,6 +414,29 @@ public class SpeechRecognizeActivity extends BaseSampleActivity implements PcmRe
                 printLog("停止录音");
             }
         }
+    }
+
+    @TargetApi(Build.VERSION_CODES.KITKAT)
+    private void writeTestResult(){
+        Log.e(TEST_TAG, "writeTestResult mTestMode = "+mTestMode);
+        //write results
+        try {
+            File writeName = new File("/sdcard/dingdang_test_result.txt");
+            writeName.createNewFile(); // 创建新文件,有同名的文件的话直接覆盖
+            try (FileWriter writer = new FileWriter(writeName);
+                 BufferedWriter out = new BufferedWriter(writer)
+            ) {
+                Log.d(TEST_TAG, "HAVE " + mResultRecord.size() + " results");
+                for (String s : mResultRecord) {
+                    out.write(s);
+                    out.write("\r\n");
+                    out.flush();
+                }
+            }
+        } catch (IOException e) {
+            Log.e(TEST_TAG, "Cannot write result");
+        }
+        Log.d(TEST_TAG, "test over has result = " + mHasResult);
     }
 
     class AutoModeClickListener implements View.OnClickListener {
@@ -284,22 +472,79 @@ public class SpeechRecognizeActivity extends BaseSampleActivity implements PcmRe
             Log.i(TAG, "onTrInited - state : " + state + ", errId : " + errId);
             if (state) {
                 printLog("TrSession init成功");
+                // 选择识别类型, 默认语音转文字
+                onRecognizeTypeSet(TrSession.ISS_TR_PARAM_VOICE_TYPE_RSP_VOICE);
+                if (mTestMode) {
+                    mResultRecord = new ArrayList<>();
+                    mHandler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            Log.d(TAG, "Begin Test");
+                            startRecognize();
+                        }
+                    }, 1000);
+                }
             } else {
                 printLog("TrSession init失败, errId : " + errId);
             }
         }
 
+        /**
+         * @brief 语音识别回调。
+         *
+         * 根据trMsgCode区分不同类型回调。
+         **
+         * @param trMsgCode 消息状态码，对应TrSession中ISS_TR_MSG_*消息
+         * |      trMsgCode                                 |说明                |cmd         |voiceResult           |
+         * |-------------------------------------------|--------------------|---------------|----------------|
+         * |{@link TrSession#ISS_TR_MSG_VolumeLevel}  |返回声音能量,0-25，可以用来展示声音效果|无       |          声音能量    |
+         * |{@link TrSession#ISS_TR_MSG_ProcessResult}|返回流式识别中间结果|     无        | 结果字符串     |
+         * |{@link TrSession#ISS_TR_MSG_VoiceResult}  |返回语音识别最终结果|         无    |  结果字符串    |
+         * |{@link TrSession#ISS_TR_MSG_SpeechStart}  |返回状态：检测到语音开始点|   无    |     无         |
+         * |{@link TrSession#ISS_TR_MSG_SpeechEnd}    |返回状态：检测到语音结束点|     无  |            无  |
+         * @param errCode 回调状态码，正常返回为{@link com.tencent.ai.sdk.utils.ISSErrors#ISS_SUCCESS}，只需在回调错误的时候关注
+         * @param voiceResult 语音识别的结果
+         * @param extraData 终端调用start传入的自定义信息
+         */
         @Override
-        public void onTrVoiceMsgProc(long uMsg, long wParam, String lParam, Object extraData) {
+        public void onTrVoiceMsgProc(long trMsgCode, long errCode, String voiceResult, Object extraData) {
             String msg = null;
-            Log.i(TAG, "onTrVoiceMsgProc - uMsg : " + uMsg + ", wParam : " + wParam + ", lParam : " + lParam);
-            if (uMsg == TrSession.ISS_TR_MSG_SpeechStart) {
+            Log.i(TAG, "onTrVoiceMsgProc - trMsgCode : " + trMsgCode + ", errCode : " + errCode + ", voiceResult : " + voiceResult);
+            if (trMsgCode == TrSession.ISS_TR_MSG_VoiceStart) {
+                msg = "开始启动识别";
+            } else if (trMsgCode == TrSession.ISS_TR_MSG_SpeechStart) {
                 msg = "检测到说话开始";
-            } else if (uMsg == TrSession.ISS_TR_MSG_SpeechEnd) {
+            } else if (trMsgCode == TrSession.ISS_TR_MSG_SpeechEnd) {
                 msg = "检测到说话结束";
-            } else if (uMsg == TrSession.ISS_TR_MSG_VoiceResult) {
-                msg = "语音 -> 文本 结束，结果为：" + lParam;
+                mHandler.removeCallbacks(mResultTimeoutChecker);
+                //delay 15s to checkout timeout
+                mHandler.postDelayed(mResultTimeoutChecker, 15000);
+            } else if (trMsgCode == TrSession.ISS_TR_MSG_ProcessResult){
+                msg = "语音识别中：" + voiceResult;
+            } else if (trMsgCode == TrSession.ISS_TR_MSG_VoiceResult) {
+                msg = "语音 -> 文本 结束，结果为：" + voiceResult;
+                if (mTestMode) {
+                    mResultRecord.add(voiceResult+", time:"+sdf.format(new Date()));
+                    Log.d(TEST_TAG, "get result " + voiceResult);
+                }
                 stopRecord();
+                if (mTestMode) {
+                    mHasResult += 1;
+                    mHandler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            startRecognize();
+                        }
+                    }, 300);
+                }
+                mHandler.removeCallbacks(mResultTimeoutChecker);
+            } else if (trMsgCode == TrSession.ISS_TR_MSG_ProcessResult) {
+                //中间结果
+                mHandler.removeCallbacks(mResultTimeoutChecker);
+                //delay 15s to checkout timeout
+                mHandler.postDelayed(mResultTimeoutChecker, 15000);
+            } else if (trMsgCode == TrSession.ISS_TR_MSG_InitStreamCloudSuccess) {
+                msg = "获取语音识别Session成功";
             }
 
             if (!TextUtils.isEmpty(msg)) {
@@ -308,115 +553,77 @@ public class SpeechRecognizeActivity extends BaseSampleActivity implements PcmRe
         }
 
         @Override
-        public void onTrSemanticMsgProc(long uMsg, long wParam, int cmd, String lParam, Object extraMsg) {
-            Log.i(TAG, "onTrSemanticMsgProc - uMsg : " + uMsg + ", wParam : " + wParam + ", lParam : " + lParam + ", extraMsg : " + extraMsg);
+        public void onTrSemanticMsgProc(long trMsgCode, long errCode, int cmd, String semanticResult, Object extraMsg) {
+            Log.i(TAG, "onTrSemanticMsgProc - trMsgCode : " + trMsgCode + ", errCode : " + errCode + ", semanticResult : " + semanticResult + ", extraMsg : " + extraMsg);
             printLog("语音 -> 语义 结束，结果为 ：");
-            printLog(lParam);
-
-            stopRecord();
-
-            if (mSpeechRecognizeType == SPEECH_RECOGNIZE_TYPE_ALL) {
-                parseSemanticToTTS(lParam);
-            }
-        }
-
-        @Override
-        public void onTrVoiceErrMsgProc(long uMsg, long errCode, String lParam, Object extraData) {
-            Log.i(TAG, "onTrVoiceErrMsgProc - uMsg : " + uMsg + ", errCode : " + errCode + ", lParam : " + lParam);
-            printLog("语音 -> 文本 出现错误，errCode ：" + errCode + ", msg : " + lParam);
+            String result = JSONTool.stringToJSON(semanticResult);
+            printLog(result);
 
             stopRecord();
         }
 
+        /**
+         * @brief 语音识别出现错误
+         *
+         * @param trMsgCode 消息错误码，对应TrSession#ISS_TR_MSG_*的定义
+         * |      trMsgCode                          |说明                        |
+         * |-------------------------------------|----------------------------|
+         * |{@link TrSession#ISS_TR_MSG_Error}  |语音识别发生错误             |
+         * |{@link TrSession#ISS_TR_MSG_SpeechTimeout}|在线识别超时，没有识别到有效输入|
+         * |{@link TrSession#ISS_TR_MSG_InitStreamCloudFailure}|获取语音识别Session失败，本次语音识别还未开始就结束了|
+         *
+         * @param errCode 错误码，用于区分具体错误信息
+         * |      errCode                          |说明                       |
+         * |-------------------------------------|----------------------------|
+         * | {@link com.tencent.ai.sdk.utils.ISSErrors#ISS_ERROR_NETWORK_FAIL}         |网络请求发送失败     |
+         * | {@link com.tencent.ai.sdk.utils.ISSErrors#ISS_ERROR_NETWORK_RESPONSE_FAIL} |网络请求回包失败。  |
+         * | {@link com.tencent.ai.sdk.utils.ISSErrors#ISS_ERROR_NETWORK_TIMEOUT}       |网络请求超时。      |
+         * | {@link com.tencent.ai.sdk.utils.ISSErrors#ISS_ERROR_SERVICE_ERROR}   |服务异常   |
+         * @param trErrorMsg 错误信息描述
+         * @param extraData 终端调用start传入的自定义信息
+         *
+         */
         @Override
-        public void onTrSemanticErrMsgProc(long uMsg, long errCode, int cmd, String lParam, Object extraMsg) {
-            Log.i(TAG, "onTrSemanticErrMsgProc - uMsg : " + uMsg + ", errCode : " + errCode + ", cmd : " + cmd
-                    + ", lParam : " + lParam + ", extraMsg : " + extraMsg);
-            printLog("语音 -> 语义 出现错误，errCode ：" + errCode + ", cmd : " + cmd +", msg : " + lParam);
+        public void onTrVoiceErrMsgProc(long trMsgCode, long errCode, String trErrorMsg, Object extraData) {
+            Log.i(TAG, "onTrVoiceErrMsgProc - uMsg : " + trMsgCode + ", errCode : " + errCode + ", lParam : " + trErrorMsg);
+            String errMsg = "";
+            if (trMsgCode == TrSession.ISS_TR_MSG_Error) {
+                errMsg = "语音识别错误";
+            } else if (trMsgCode == TrSession.ISS_TR_MSG_SpeechTimeout) {
+                if (errCode == VoiceConst.AISDK_CMD_ONLINE_RECO_TIMEOUT) {
+                    errMsg = "在线识别超时，没有识别到有效输入";
+                } else if (errCode == VoiceConst.AISDK_CMD_ONLINE_RECO_LOCAL_SIL_TIMEOUT) {
+                    errMsg = "本地VAD检测静音超时";
+                } else if (errCode == VoiceConst.AISDK_CMD_ONLINE_RECO_SPEECH_TIMEOUT) {
+                    errMsg = "在线识别云端长时间结束不了导致问题";
+                }
+            } else if (trMsgCode == TrSession.ISS_TR_MSG_InitStreamCloudFailure) {
+                errMsg = "获取语音识别Session失败";
+            }
+            Log.i(TAG, "onTrVoiceErrMsgProc: " + errMsg);
+            printLog("语音 -> 文本 出现错误，errCode ：" + errCode + ", errMsg : " + errMsg);
+
+            mHandler.removeCallbacks(mResultTimeoutChecker);
+            stopRecord();
+            if (mTestMode) {
+                mResultRecord.add("ERROR:"+errCode+", time:"+sdf.format(new Date()));
+                Log.d(TEST_TAG, "Will start to test");
+                mHandler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        startRecognize();
+                    }
+                }, 300);
+            }
+        }
+
+        @Override
+        public void onTrSemanticErrMsgProc(long trMsgCode, long errCode, int cmd, String trErrorMsg, Object extraMsg) {
+            Log.i(TAG, "onTrSemanticErrMsgProc - trMsgCode : " + trMsgCode + ", errCode : " + errCode + ", cmd : " + cmd
+                    + ", trErrorMsg : " + trErrorMsg + ", extraMsg : " + extraMsg);
+            printLog("语音 -> 语义 出现错误，errCode ：" + errCode + ", cmd : " + cmd +", msg : " + trErrorMsg);
 
             stopRecord();
-        }
-    };
-
-    /**
-     * 解析语义数据，并将回复语进行语音合成
-     *
-     * @param semantic
-     */
-    private void parseSemanticToTTS(String semantic) {
-        if (TextUtils.isEmpty(semantic)) {
-            return;
-        }
-
-        try {
-            JSONObject root = new JSONObject(semantic);
-            String noScreenAnswer = root.optString("noscreen_answer");
-
-            printLog("开始语音合成：" + noScreenAnswer);
-            if (!TextUtils.isEmpty(noScreenAnswer)) {
-                // 设置是否需要播放
-                mTTSSession.setParam(TtsSession.TYPE_TTS_PLAYING, TtsSession.TTS_PLAYING);
-                mTTSSession.startSpeak(noScreenAnswer, mTTSListener);
-            }
-        } catch (JSONException e) {
-            Log.e(TAG, "parseSemanticToTTS : " + e.getMessage());
-        }
-    }
-
-    private ITtsInitListener mTTSInitListener = new ITtsInitListener() {
-        @Override
-        public void onTtsInited(boolean state, int errId) {
-            String msg = "";
-            if (state) {
-                msg = "TTS引擎初始化成功";
-            } else {
-                msg = "TTS引擎初始化失败，errId ：" + errId;
-            }
-
-            Log.d(TAG, msg);
-            printLog(msg);
-        }
-    };
-
-    private ITtsListener mTTSListener = new ITtsListener() {
-        @Override
-        public void onPlayCompleted() {
-            String msg = "播放结束：onPlayCompleted";
-            Log.i(TAG, msg);
-            printLog(msg);
-        }
-
-        @Override
-        public void onPlayBegin() {
-            String msg = "播放开始：onPlayBegin";
-            Log.i(TAG, msg);
-            printLog(msg);
-        }
-
-        @Override
-        public void onPlayInterrupted() {
-            String msg = "播放被中断：onPlayInterrupted";
-            Log.i(TAG, msg);
-            printLog(msg);
-        }
-        @Override
-        public void onError(int errorCode, String errorMsg){
-            String msg = "播报出现错误：onError code="+errorCode+" errorMsg="+errorMsg;
-            Log.i(TAG, msg);
-            printLog(msg);
-        }
-        @Override
-        public void onProgressReturn(int textindex, int textlen) {
-            String msg = "播放进度 - textindex ：" +  textindex + ", textlen : " + textlen;
-            Log.i(TAG, msg);
-            printLog(msg);
-        }
-
-        @Override
-        public void onProgressRuturnData(byte[] data, boolean end) {
-            String msg = "音频流返回 - data size : " + data.length + ", isEnd : " + end;
-            Log.i(TAG, msg);
-            printLog(msg);
         }
     };
 }

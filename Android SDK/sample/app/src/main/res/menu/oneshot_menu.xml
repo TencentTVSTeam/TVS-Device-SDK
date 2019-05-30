@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group
+        android:id="@+id/recognize_mode"
+        android:checkableBehavior="single">
+        <item android:id="@+id/full_mode"
+            android:title="全流程模式"
+            android:checked="false"
+            android:checkable="true"/>
+    </group>
+</menu>

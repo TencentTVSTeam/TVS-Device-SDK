@@ -2,40 +2,66 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.tencent.ai.sampleapp">
 
-    <uses-permission android:name="android.permission.RECORD_AUDIO" >
-    </uses-permission>
+    <uses-permission android:name="android.permission.RECORD_AUDIO"></uses-permission>
     <!-- 用于读取手机当前的状态 -->
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" >
-    </uses-permission>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"></uses-permission>
     <!-- 写入扩展存储，向扩展卡写入数据，用于写入离线定位数据 -->
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" >
-    </uses-permission>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"></uses-permission>
     <!-- 访问网络，网络定位需要上网 -->
     <uses-permission android:name="android.permission.INTERNET" />
     <!-- 获取运营商信息，用于支持提供运营商信息相关的接口 -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
-    <application android:name=".SpeechApplication"
-        android:allowBackup="true" android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name" android:theme="@style/AppTheme">
+    <application
+        android:name=".SpeechApplication"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme">
 
- <meta-data android:name="com.tencent.rdm.uuid" android:value="fa9a2e78-9a47-4c68-981d-e95de6e6f938" />
-
-        <activity android:name=".MainActivity" android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar">
+        <activity
+            android:name=".MainActivity"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
-        <activity android:name=".SpeechRecognizeActivity" android:label="@string/speech_recognize_name"
+        <activity
+            android:name=".SpeechRecognizeActivity"
+            android:label="@string/speech_recognize_name"
             android:theme="@style/AppTheme" />
-        <activity android:name=".Text2SemanticActivity" android:label="@string/text_to_semantic_name"
+        <activity
+            android:name=".Text2SemanticActivity"
+            android:label="@string/text_to_semantic_name"
             android:theme="@style/AppTheme" />
-        <activity android:name=".WakeupActivity" android:label="@string/wakeup_name"
+        <activity
+            android:name=".WakeupActivity"
+            android:label="@string/wakeup_name"
             android:theme="@style/AppTheme" />
-        <activity android:name=".TTSActivity" android:label="@string/tts_name"
+        <activity
+            android:name=".TTSActivity"
+            android:label="@string/tts_name"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".OneShotActivity"
+            android:label="@string/oneshot_name"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".SettingsActivity"
+            android:label="@string/settings_name"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".CustomWakeupActivity"
+            android:label="@string/custom_wakeup_name"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".WakeupRecognizeActivity"
+            android:label="@string/wakeup_recognize_name"
             android:theme="@style/AppTheme" />
     </application>
 

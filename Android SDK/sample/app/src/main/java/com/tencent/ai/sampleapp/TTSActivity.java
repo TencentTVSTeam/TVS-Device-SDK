@@ -6,7 +6,6 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.ScrollView;
 
 import com.tencent.ai.sdk.tts.ITtsInitListener;
 import com.tencent.ai.sdk.tts.ITtsListener;
@@ -69,7 +68,7 @@ public class TTSActivity extends BaseSampleActivity implements View.OnClickListe
                 mTTSSession.stopSpeak();
                 // 设置是否需要播放
                 mTTSSession.setParam(TtsSession.TYPE_TTS_PLAYING, TtsSession.TTS_PLAYING);
-				int ret = mTTSSession.startSpeak(text, mTTSListener);
+                int ret = mTTSSession.startSpeak(text, mTTSListener);
                 if (ret == ISSErrors.TTS_PLAYER_SUCCESS) {
                     curText = text;
                 }
@@ -85,6 +84,8 @@ public class TTSActivity extends BaseSampleActivity implements View.OnClickListe
             String msg = "";
             if (state) {
                 msg = "初始化成功";
+
+                mTTSSession.sessionStart(AudioManager.STREAM_NOTIFICATION);
             } else {
                 msg = "初始化失败，errId ：" + errId;
             }
@@ -115,12 +116,7 @@ public class TTSActivity extends BaseSampleActivity implements View.OnClickListe
             Log.i(TAG, msg);
             printLog(msg);
         }
-        @Override
-        public void onError(int errorCode, String errorMsg){
-            String msg = "播报出现错误：onError code="+errorCode+" errorMsg="+errorMsg;
-            Log.i(TAG, msg);
-            printLog(msg);
-        }
+
         @Override
         public void onProgressReturn(int textindex, int textlen) {
             String msg;
@@ -139,6 +135,11 @@ public class TTSActivity extends BaseSampleActivity implements View.OnClickListe
             String msg = "音频流返回 - data size : " + data.length + ", isEnd : " + end;
             Log.i(TAG, msg);
             printLog(msg);
+        }
+
+        @Override
+        public void onError(int i, String s) {
+
         }
     };
 }

@@ -4,5 +4,68 @@
     <string name="text_to_semantic_name">文字转语义</string>
     <string name="tts_name">文字转语音</string>
     <string name="wakeup_name">唤醒</string>
+    <string name="oneshot_name">OneShot模式</string>
+    <string name="settings_name">设置</string>
+    <string name="custom_wakeup_name">自定义唤醒</string>
+    <string name="wakeup_recognize_name">唤醒+识别</string>
     <string name="tts_test_text">兰陵美酒郁金香，玉碗盛来琥珀光。但使主人能醉客，不知何处是他乡</string>
+
+    <string name="env_normal">正式环境</string>
+    <string name="env_test">测试环境</string>
+    <string name="env_exp">体验环境</string>
+    <string name="env_normal_value">0</string>
+    <string name="env_test_value">1</string>
+    <string name="env_exp_value">2</string>
+
+    <string-array name="env_list">
+        <item>@string/env_normal</item>
+        <item>@string/env_test</item>
+        <item>@string/env_exp</item>
+    </string-array>
+    <string-array name="env_list_value">
+        <item>@string/env_normal_value</item>
+        <item>@string/env_test_value</item>
+        <item>@string/env_exp_value</item>
+    </string-array>
+
+
+    <!-- Permission -->
+    <string name="permission_get_accounts_hint">没有此权限，无法开启这个功能，请开启权限。PERMISSION_GET_ACCOUNTS</string>
+    <string name="permission_read_phone_hint">没有此权限，将无法完整使用此应用，请开启权限</string>
+    <string name="permission_read_external_hint">没有此权限，无法开启这个功能，请开启权限。PERMISSION_READ_EXTERNAL_STORAGE</string>
+    <string name="permission_white_external_hint">没有此权限，将无法使用我的视频，请开启权限</string>
+    <string name="permission_recode_audio_hint">没有此权限，无法开启这个功能，请开启权限。PERMISSION_RE</string>
+    <string name="dialog_confirm">确认</string>
+    <string name="dialog_cancel">取消</string>
+
+    <string-array name="permissions">
+        <item>@string/permission_recode_audio_hint</item>
+        <item>@string/permission_get_accounts_hint</item>
+        <item>@string/permission_read_phone_hint</item>
+        <item>@string/permission_read_external_hint</item>
+        <item>@string/permission_white_external_hint</item>
+    </string-array>
+
+    <string name="wakeup_network_none">不上传</string>
+    <string name="wakeup_network_wifi">仅wifi网络</string>
+    <string name="wakeup_network_4g">仅4G/3G网络</string>
+    <string name="wakeup_network_both">4G/3G/wifi网络</string>
+
+    <string name="wakeup_network_none_value">0</string>
+    <string name="wakeup_network_wifi_value">1</string>
+    <string name="wakeup_network_4g_value">2</string>
+    <string name="wakeup_network_both_value">3</string>
+
+    <string-array name="wakeup_network_list">
+        <item>@string/wakeup_network_none</item>
+        <item>@string/wakeup_network_wifi</item>
+        <item>@string/wakeup_network_4g</item>
+        <item>@string/wakeup_network_both</item>
+    </string-array>
+    <string-array name="wakeup_network_list_value">
+        <item>@string/wakeup_network_none_value</item>
+        <item>@string/wakeup_network_wifi_value</item>
+        <item>@string/wakeup_network_4g_value</item>
+        <item>@string/wakeup_network_both_value</item>
+    </string-array>
 </resources>

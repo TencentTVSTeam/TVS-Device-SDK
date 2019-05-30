@@ -1,21 +1,16 @@
 package com.tencent.ai.sampleapp;
 
-import android.app.Activity;
 import android.os.Bundle;
-import android.os.Environment;
-import android.os.Message;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
 
 import com.tencent.ai.sampleapp.record.PcmRecorder;
 import com.tencent.ai.sampleapp.util.FileUtil;
 import com.tencent.ai.sdk.atw.AtwSession;
 import com.tencent.ai.sdk.atw.IAtwListener;
-import com.tencent.ai.sdk.utils.ISSErrors;
+import com.tencent.ai.sdk.atw.WakeupError;
 import com.tencent.ai.sdk.atw.WakeupRsp;
+import com.tencent.ai.sdk.utils.ISSErrors;
 
 import java.io.File;
 
@@ -34,9 +29,8 @@ public class WakeupActivity extends BaseSampleActivity implements View.OnClickLi
     /** 是否延迟开启唤醒流程，一般在初始化时候设置 */
     private boolean mPendingStartWakeup = false;
 
-    /** 唤醒本地模型文件，保证跟识别模型 */
-    private static final String RES_PATH = Environment.getExternalStorageDirectory().getAbsolutePath()
-            + "/tencent/dingdang/res/tsr";
+    /** 唤醒本地模型文件，本Sample必须放在这个目录，否则唤醒无法运行 */
+    private String RES_PATH = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +40,7 @@ public class WakeupActivity extends BaseSampleActivity implements View.OnClickLi
         // 初始化View
         super.initView();
         findViewById(R.id.wakeup_btn).setOnClickListener(this);
+        RES_PATH = FileUtil.getModelFilePath(this) + "/keywords_model";
     }
 
     @Override
@@ -79,10 +74,24 @@ public class WakeupActivity extends BaseSampleActivity implements View.OnClickLi
             if (null == mAtwSession) {
                 mPendingStartWakeup = true;
 
-                mAtwSession = new AtwSession(this, RES_PATH, mvwListener);
+                //三种方式都支持，前两种不需要再初始化listener
+//                mAtwSession = new AtwSession(this, RES_PATH, mvwListener);
+//                mAtwSession = AtwSession.getInstance(this, RES_PATH, mvwListener);
+                mAtwSession = AtwSession.getInstance(this, RES_PATH, true);
+                mAtwSession.init(mvwListener);
 
                 printLog("初始化唤醒Session中");
 
+                //获取唤醒模型的md5值
+                //SpeechManager.getInstance().aisdkGetConfig(WakeupConfig.AISDK_CONFIG_WAKEUP_MODEL_MD5);
+
+                //设置环境变量
+                //正式环境
+                //SpeechManager.getInstance().setEnvironment(CommonConfig.AISDK_CONFIG_VALUE_ENV_TYPE_NORMAL);
+                //测试环境
+                //SpeechManager.getInstance().setEnvironment(CommonConfig.AISDK_CONFIG_VALUE_ENV_TYPE_TEST);
+                //灰度环境
+                //SpeechManager.getInstance().setEnvironment(CommonConfig.AISDK_CONFIG_VALUE_ENV_TYPE_EXP);
                 return;
             }
 
@@ -130,21 +139,28 @@ public class WakeupActivity extends BaseSampleActivity implements View.OnClickLi
 
     @Override
     public void onRecord(byte[] buffer, int bufferSize) {
-        printLog("录音中..." + bufferSize);
+//        printLog("录音中..." + bufferSize);
         if (null != mAtwSession) {
             mAtwSession.appendAudioData(buffer, bufferSize);
         }
     }
 
     private IAtwListener mvwListener = new IAtwListener() {
-		
+
         @Override
         public void onAtwWakeup(WakeupRsp rsp) {
-            Log.d(TAG, "wake up : " + rsp.iEndTimeMs);
+            Log.d(TAG, "wake up : " + rsp.sText);
 
-            printLog("唤醒成功，你好语音助理, wakeup_time:" + rsp.iEndTimeMs);
+            printLog("唤醒成功，你好语音助理, 唤醒词:" + rsp.sText);
 
-            stopRecord();
+            // 启动一次唤醒，可以持续录入音频数据，无需多次启动和停止
+            // stopRecord();
+        }
+
+        @Override
+        public void onAtwError(WakeupError error) {
+            Log.e(TAG, "wake up error code is:  " + error.errorCode + ", error msg: " + error.errMsg);
+            printLog("唤醒出错，错误码: " + error.errorCode + ", msg: " + error.errMsg);
         }
 
         @Override
@@ -157,6 +173,10 @@ public class WakeupActivity extends BaseSampleActivity implements View.OnClickLi
                     startWakeup();
                 }
             } else {
+                /**
+                 * errId,错误码定义详见
+                 * @see com.tencent.ai.sdk.atw.WakeupConst
+                 */
                 printLog("初始化失败，errId ：" + errId);
 
                 mAtwSession = null;
