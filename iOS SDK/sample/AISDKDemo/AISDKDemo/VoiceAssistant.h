@@ -23,6 +23,7 @@
 @property(nonatomic, strong)SemanticSession *semanticSession;
 @property(nonatomic, strong)TtsSession *ttsSession;
 @property(nonatomic, strong)SpeechWakeup *wakeup;
+@property(nonatomic, strong)NSString *buffer_file_dir;
 
 + (id)sharedInstance;
 

@@ -19,17 +19,18 @@
 @property(nonatomic, strong) NSMutableDictionary *sDelegates;
 
 /*!
- *@brief 获取SpeechEngine实例
+ *@brief 获取已经初始化的SpeechEngine实例
  *
  */
-+(id)sharedInstance;
++(id)getInitedInstance;
 
 /*!
  *@brief 获取SpeechEngine实例
  *@param app_key 申请的appkey
  *@param acess_token 申请的acesstoken
+ *@param dsn uuid 手机的唯一标示
  */
-+(id)sharedInstance:(NSString *)app_key acess_token:(NSString*)acess_token;
++(id)sharedInstance:(NSString *)app_key acess_token:(NSString*)acess_token withDsn:(NSString *)dsn;
 
 /*!
  *@brief 获取版本信息
@@ -91,6 +92,13 @@
  * @param key session对象的key
  */
 -(void)removeSDelegate:(NSString *)key;
+
+/*!
+ * 0  -> no net
+ * 1 -> WIFI
+ * 2 -> 3G/4G
+ */
+-(void)setNetworkType:(int)type;
 
 @end
 
@@ -156,14 +164,17 @@ extern const int K_AISDK_CONFIG_COMMON_BEGIN;
  * ## 功能
  * 配置网络环境（服务器）
  * ## 值
- *  AISDK_CONFIG_VALUE_ENV_TYPE_TEST-正式环境
- *  "1"-测试环境
+ *  AISDK_CONFIG_VALUE_ENV_TYPE_FORMAL - 正式环境
+ *  AISDK_CONFIG_VALUE_ENV_TYPE_TEST - 测试环境
+ *  AISDK_CONFIG_VALUE_ENV_TYPE_EXP - 体验环境
  * ## 示例：
  * ```
  * //设置环境为测试环境
  * aisdkSetConfig(AISDK_CONFIG_ENV_TYPE,AISDK_CONFIG_VALUE_ENV_TYPE_TEST)
  * //设置环境为正式环境
  * aisdkSetConfig(AISDK_CONFIG_ENV_TYPE,AISDK_CONFIG_VALUE_ENV_TYPE_FORMAL)
+ * //设置环境为灰度环境
+ * aisdkSetConfig(AISDK_CONFIG_ENV_TYPE,AISDK_CONFIG_VALUE_ENV_TYPE_EXP)
  * ```
  */
 extern const int K_AISDK_CONFIG_ENV_TYPE;
@@ -398,6 +409,129 @@ extern const int K_AISDK_CONFIG_CHAT_BOT;
  */
 extern const int K_AISDK_CONFIG_APP_KEY_AND_TOKEN;
 
+/*!
+ * @see aisdkGetConfig()
+ *
+ * @brief 获得设备当前GUID
+ *
+ * ## 功能
+ * 获得设备当前GUID
+ * ## 示例：
+ *
+ * ```
+ * aisdkGetConfig(AISDK_CONFIG_GUID)
+ * ```
+ */
+extern const int K_AISDK_CONFIG_GUID;
+
+/*!
+ *
+ * @see aisdkSetConfig()
+ *
+ * @brief 配置保存录音的路径，默认是保存在工作目录下的
+ *
+ * 配置项关键字
+ * ## 功能
+ * 配置保存录音的路径
+ * ## 值
+ * ## 示例
+ * ```
+ * //保存录音路径
+ * aisdkSetConfig(AISDK_CONFIG_WAKEUP_BUFFER_SAVING_PATH,"/data/wakeup_audio")
+ * ```
+ */
+extern const int K_AISDK_CONFIG_WAKEUP_BUFFER_SAVING_PATH;
+
+/*!
+ *
+ * @see aisdkSetConfig()
+ *
+ * @brief 配置是否保存录音，每次唤醒保存一个文件
+ *
+ * 配置项关键字
+ * ## 功能
+ * 配置是否保存录音
+ * ## 值
+ * ## 示例
+ * ```
+ * //保存录音
+ * aisdkSetConfig(AISDK_CONFIG_WAKEUP_BUFFER_SAVING_ENABLED,"1")
+ * //不保存录音
+ * aisdkSetConfig(AISDK_CONFIG_WAKEUP_BUFFER_SAVING_ENABLED,"0")
+ * ```
+ */
+extern const int K_AISDK_CONFIG_WAKEUP_BUFFER_SAVING_ENABLED;
+
+
+/*!
+ *
+ * @see aisdkSetConfig()
+ *
+ * @brief 配置唤醒音频上传的网络
+ *
+ * 配置项关键字
+ * ## 功能 （NO_UPLOADING = "0"，ONLY_WIFI = "1"，ONLY_4G = "2"，BOTH_WIFI_AND_4G = "3"）
+ *
+ */
+extern const int K_AISDK_CONFIG_WAKEUP_BUFFER_UPLOAD_NETWORK_TYPE;
+
+/*!
+ *
+ * @see aisdkSetConfig()
+ *
+ * @brief 配置保存文件的最大数量
+ *
+ * 配置项关键字
+ * ## 功能
+ * 配置保存文件的最大数量
+ * ## 值
+ * ## 示例
+ * ```
+ * //保存录音文件的最大数量
+ * aisdkSetConfig(AISDK_CONFIG_WAKEUP_BUFFER_MAX_FILE_SIZE,"10")
+ * ```
+ */
+extern const int K_AISDK_CONFIG_WAKEUP_BUFFER_MAX_FILE_SIZE;
+
+/*!
+ * @see aisdkSetConfig()
+ *
+ * @brief 配置APP版本号
+ *
+ * ## 功能
+ * 配置渠道号
+ *
+ */
+extern const int K_AISDK_CONFIG_APP_VERSION_NUM;
+
+/*!
+ * @brief 唤醒录音文件控制命令，内部使用
+ *
+ * 配置项关键字
+ * ## 功能 (CMD_DO_UPLOAD = "1", CMD_CANCEL_UPLOAD = "2")
+ * 唤醒录音文件控制命令
+ * ## 值
+ */
+extern const int K_AISDK_CONFIG_WAKEUP_BUFFER_CONTROL;
+
+/*!
+ * @brief 配置是否开启沙箱环境，默认关闭
+ *
+ * ## 功能
+ * 配置是否开启沙箱环境，默认关闭
+ * ## 值
+ * 值|说明
+ * --|--
+ * K_AISDK_CONFIG_VALUE_ENABLE|开启沙箱环境
+ * K_AISDK_CONFIG_VALUE_DISABLE|关闭沙箱环境
+ *
+ */
+extern const int K_AISDK_CONFIG_OPEN_SANDBOX;
+
+
+extern const int K_AISDK_CONFIG_WAKEUP_SAVE_SPEECH;
+
+
 // 通用配置项，key的结束值
 extern const int K_AISDK_CONFIG_COMMON_END;
 
@@ -423,6 +557,11 @@ extern const char* const K_AISDK_CONFIG_VALUE_ENV_TYPE_FORMAL;
  * @brief 网络环境：测试环境
  */
 extern const char* const K_AISDK_CONFIG_VALUE_ENV_TYPE_TEST;
+//
+/*!
+ * @brief 网络环境：体验环境
+ */
+extern const char* const K_AISDK_CONFIG_VALUE_ENV_TYPE_EXP;
 //
 /*!
  * @brief TTS格式：MP3

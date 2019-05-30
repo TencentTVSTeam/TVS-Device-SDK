@@ -7,11 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <GT/GT.h>
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
-
+// add for gt
+@property (strong, nonatomic) NSTimer *batteryTimer;
 
 @end
 

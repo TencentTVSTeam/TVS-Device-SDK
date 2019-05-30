@@ -35,12 +35,11 @@
 
 @interface VoiceSession : NSObject<SessionDelegate>
 
-@property(nonatomic, assign)id<VoiceSessionDelegate> delegate;
+@property(nonatomic, weak)id<VoiceSessionDelegate> delegate;
 @property(nonatomic, strong)dispatch_queue_t voiceQueue;
 
 /*！
  * @brief 开始一次语音识别流程
- * @param userdata 自定义数据指针。callback时带回。
  * @param flags 控制标志，参考K_AISDK_FLAG_ONLINE_RECO_*常量定义。如果不设置，传0即可。
  * @return 0：ok，other：fail。 错误码定义见AISDK_ERROR_*常量
  */
@@ -53,6 +52,14 @@
  * @return 0：ok，other：fail。 错误码定义见AISDK_ERROR_*常量
  */
 -(int)startVoice2text:(NSInteger)mode userData:(id)userdata;
+
+/*!
+ * @brief 初始化语音识别功能，如果没有接入新版vad，不需要调用此方法
+ * @param resDir VAD模型所在的根目录
+ * @return 0：ok，other：fail。 错误码定义见AISDK_ERROR_*常量
+ */
+//AISDK_API_EXPORTS int aisdkInitOnlineVoice2Text(char* modelPath);
+-(int)initOnlineVoice2TextWithPath:(const char *)modelPath;
 
 /*!
  * @brief 输入录音数据
@@ -79,6 +86,14 @@
  * @return 0：ok，other：fail。 错误码定义见AISDK_ERROR_*常量
  */
 -(int)stopVoice2Text;
+
+/**
+ * 设置ASR语音识别上下文
+ * @param jsonContext 上下文内容，json字符串
+ * @param type 用于区分上下文内容，例如：1：微信，2：联系人，3：手机地图
+ * @return 设置成功返回0：AISDK_RESULT_OK
+ */
+//-(int)setOnlineVoiceContext:(char *)jsonContext withType:(NSInteger)type;
 
 @end
 
@@ -134,6 +149,18 @@ extern const int K_AISDK_CMD_ONLINE_RECO_TIMEOUT;                   // 在线识
 extern const int K_AISDK_CMD_ONLINE_RECO_ERROR;                   // 在线识别出错
 
 /*!
+ * @brief 回调接口命令定义，在线识别服务端无结果返回
+ * @see VoiceSessionDelegate
+ */
+extern const int K_AISDK_CMD_ONLINE_RECO_SPEECH_TIMEOUT;
+
+/*!
+ * @brief 回调接口命令定义，本地静音超时
+ * @see VoiceSessionDelegate
+ */
+extern const int K_AISDK_CMD_ONLINE_RECO_LOCAL_SIL_TIMEOUT;
+
+/*!
  * 错误码定义
  *
  * 模块还没有初始化
@@ -147,6 +174,19 @@ extern const int K_AISDK_ERROR_ONLINE_RECO_NOT_STARTED;
  */
 extern const int K_AISDK_ERROR_ONLINE_RECO_CREATE_HANDLE_FAILED;
 
+/*!
+ * 回调接口命令定义
+ *
+ * 获取语音识别Session成功，标识云端已为始语音识别做好准备
+ */
+extern const int K_AISDK_CMD_ONLINE_RECO_INIT_CLOUD_STREAM_SUCCESS;
+
+/*!
+ * 回调接口命令定义
+ *
+ * 回调接口命令定义，获取语音识别Session失败，本次语音识别还未开始就结束了
+ */
+extern const int K_AISDK_CMD_ONLINE_RECO_INIT_CLOUD_STREAM_FAILURE;
 /*!
  * 配置项键值定义
  */
@@ -297,12 +337,67 @@ extern const int K_AISDK_CONFIG_VOICE_ONLINE_LANGUAGE_TYPE;
  */
 extern const int K_AISDK_CONFIG_VOICE_ONLINE_SAVE_SPEECH;
 
+extern const int K_AISDK_CONFIG_VOICE_VAD_SILENT_MAX;
+
+/*!
+ *
+ * @see aisdkSetConfig()
+ *
+ * @brief 设置语音识别时静音超时时间
+ * ## 默认值 10000ms
+ * 配置项关键字
+ * ## 示例
+ * ```
+ * //设置静音超时10s
+ * aisdkSetConfig(K_AISDK_CONFIG_VOICE_ONLINE_SIL_TIMEOUT,"10000");
+ * ```
+ */
+extern const int K_AISDK_CONFIG_VOICE_ONLINE_SIL_TIMEOUT;
+
+//extern const int K_AISDK_CONFIG_VOICE_VAD_SILENT_MAX;
+
+/*!
+ *
+ * @see aisdkSetConfig()
+ *
+ * @brief 设置判断语音结束的静音时间
+ * ## 默认值 500ms
+ * 配置项关键字
+ * ## 示例
+ * ```
+ * //设置语音结束静音时间为500ms
+ * aisdkSetConfig(K_AISDK_CONFIG_VOICE_ONLINE_SIL_TIME,"500")
+ * ```
+ */
+extern const int K_AISDK_CONFIG_VOICE_ONLINE_SIL_TIME;
+
 /*!
  * @brief 配置语音识别环境
  * @note 配置语音识别环境为正式环境 aisdkSetConfig(AISDK_CONFIG_VOICE_ENV_TYPE,AISDK_CONFIG_VALUE_ENV_TYPE_FORMAL)
  * @see aisdkSetConfig()
  */
 extern const int K_AISDK_CONFIG_VOICE_ENV_TYPE;
+
+/*!
+ * @brief 忽略在语音识别中的唤醒
+ * // 识别过程中忽略唤醒
+ * aisdkSetConfig(AISDK_CONFIG_VOICE_ONLINE_IGNORE_WAKEUP_WHEN_RECO,"1")
+ * // 识别过程中可以唤醒
+ * aisdkSetConfig(AISDK_CONFIG_VOICE_ONLINE_IGNORE_WAKEUP_WHEN_RECO,"0")
+ * ```
+ */
+extern const int K_AISDK_CONFIG_VOICE_ONLINE_IGNORE_WAKEUP_WHEN_RECO;
+
+/**
+ *
+ * @brief 在线识别每一次发送网络请求的最小语音数据包，默认0字节，即不缓存每一帧都发出
+ */
+extern const int K_AISDK_CONFIG_VOICE_ONLINE_AUDIO_PEER_SIZE;
+
+/*!
+ *@brief 在线识别发SDK处理的每一帧语音的最小数据包，默认3200字节,如果输入的一帧数据不到这个值，SDK会累积到这个值再处理
+ */
+extern const int K_AISDK_CONFIG_VOICE_ONLINE_AUDIO_PACKET_SIZE;
 
 // 配置项，key的结束值
 extern const int K_AISDK_CONFIG_VOICE_ONLINE_END;
@@ -321,3 +416,47 @@ extern const int K_AISDK_FLAG_ONLINE_RECO_MANUAL_MODE;     // 语音识别改为
  * @brief 返回的json数据中的code定义,成功
  */
 extern const int K_AISDK_RESULT_CODE_ONLINE_OK;
+
+/*!
+ * @brief 配置是否只识别VAD
+ * @note 配置是否只识别VAD，配置后不会发起在线语音识别，只回调VAD的开始和结束
+ * 
+ * ## 示例：
+ * ```
+ * // 配置开启只识别VAD
+ * aisdkSetConfig(AISDK_CONFIG_VOICE_ONLINE_ONLY_DETECT_VAD,"1")
+ * // 配置关闭只识别VAD
+ * aisdkSetConfig(AISDK_CONFIG_VOICE_ONLINE_ONLY_DETECT_VAD,"0")
+ * ```
+ */
+extern const int K_AISDK_CONFIG_VOICE_ONLINE_ONLY_DETECT_VAD;
+
+/*!
+ * @brief 是否使用本地vad结束，默认开启
+ *
+ * ## 功能
+ * 配置是否使用本地vad结束
+ * ## 值
+ * ## 示例
+ * ```
+ * aisdkSetConfig(AISDK_CONFIG_VOICE_ONLINE_USER_LOCAL_VAD,"1")
+ * ```
+ */
+extern const int K_AISDK_CONFIG_VOICE_ONLINE_USER_LOCAL_VAD;
+
+/*!
+ * @brief 配置输入音频是否已编码，默认关闭，对输入已编码的音频SDK不会再做编码，默认输入未编码音频
+ *
+ * ## 值
+ * ## 示例：
+ * ```
+ * // 配置输入已编码音频
+ * aisdkSetConfig(AISDK_CONFIG_VOICE_ONLINE_INPUT_ENCODED_DATA,"1")
+ * // 配置输入未编码音频
+ * aisdkSetConfig(AISDK_CONFIG_VOICE_ONLINE_INPUT_ENCODED_DATA,"0")
+ * ```
+ * @note 注意：因为SDK不会对已编码音频做解码，输入已编码音频不会去做本地VAD检查
+ *
+ * @see AISDK_CONFIG_AUDIO_FORMAT 编码格式由这个配置指定
+ */
+extern const int K_AISDK_CONFIG_VOICE_ONLINE_INPUT_ENCODED_DATA;

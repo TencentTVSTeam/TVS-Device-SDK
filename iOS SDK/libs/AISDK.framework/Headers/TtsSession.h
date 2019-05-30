@@ -37,7 +37,7 @@
 
 @interface TtsSession : NSObject<SessionDelegate>
 
-@property(nonatomic, assign)id<TtsSessionDelegate> delegate;
+@property(nonatomic, weak)id<TtsSessionDelegate> delegate;
 @property(nonatomic, strong)dispatch_queue_t ttsQueue;
 
 /*!

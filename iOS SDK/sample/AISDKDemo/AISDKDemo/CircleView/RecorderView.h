@@ -42,5 +42,7 @@ typedef NS_ENUM(NSInteger, RecorderStatus) {
 - (void) setMsgTextHidden : (BOOL) hidden;
 
 - (void)setMsgText:(NSString *)text;
+
+- (void) setTouchEnabled:(BOOL)enable;
 @end
 

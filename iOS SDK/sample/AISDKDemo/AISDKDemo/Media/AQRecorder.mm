@@ -11,8 +11,10 @@
 void AudioInputCallback(void* inUserData, AudioQueueRef inAQ, AudioQueueBufferRef inBuffer, const AudioTimeStamp* inStartTime,
                         UInt32 inNumberPacketDescriptions, const AudioStreamPacketDescription* inPacketDescs) {
 
-    NSLog(@"AudioInputCallback start");
-    
+    //NSLog(@"AudioInputCallback start");
+    if (inUserData == nil) {
+        return;
+    }
     AQRecorder *recorder = (__bridge AQRecorder *)inUserData;
 
     RecordState recordState = recorder.recordState;
@@ -34,14 +36,14 @@ void AudioInputCallback(void* inUserData, AudioQueueRef inAQ, AudioQueueBufferRe
                                             recordState.currentPacket, &inNumberPacketDescriptions, inBuffer->mAudioData);
     #endif
 
-    NSLog(@"AudioQueueEnqueueBuffer inBuffer size = %d ,currentPacket = %d", (unsigned int)inBuffer->mAudioDataByteSize, (int)recordState.currentPacket);
+    //NSLog(@"AudioQueueEnqueueBuffer inBuffer size = %d ,currentPacket = %d", (unsigned int)inBuffer->mAudioDataByteSize, (int)recordState.currentPacket);
     recordState.currentPacket += inNumberPacketDescriptions;
     if (!recordState.working) {
         return;
     }
     AudioQueueEnqueueBuffer(recordState.queue, inBuffer, 0, NULL);
     recorder.recordState = recordState;
-    NSLog(@"AudioInputCallback end");
+    //NSLog(@"AudioInputCallback end");
 }
 
 void DeriveBufferSize(AudioQueueRef audioQueue, AudioStreamBasicDescription ASBDescription, Float64 seconds, UInt32 *outBufferSize) {
@@ -59,6 +61,10 @@ void DeriveBufferSize(AudioQueueRef audioQueue, AudioStreamBasicDescription ASBD
 @implementation AQRecorder
 
 -(NSError*)start {
+    if (_recordState.working == true) {
+        NSLog(@"AQRecorder start isWorking!!!");
+        return nil;
+    }
     [self setupAudioFormat:&_recordState.dataFormat];
     
     OSStatus status = AudioQueueNewInput(&_recordState.dataFormat, AudioInputCallback, (__bridge void *)self, CFRunLoopGetCurrent(),
@@ -91,7 +97,12 @@ void DeriveBufferSize(AudioQueueRef audioQueue, AudioStreamBasicDescription ASBD
                 _recordState.working = true;
                 return nil;
             }
+        } else {
+        
+            NSLog(@"start createAudioFile status  = %d",(int)status);
         }
+    } else {
+        NSLog(@"start AudioQueueNewInput status = %d",(int)status);
     }
     
     return [NSError errorWithDomain:NSOSStatusErrorDomain code:status userInfo:nil];
@@ -154,6 +165,7 @@ void DeriveBufferSize(AudioQueueRef audioQueue, AudioStreamBasicDescription ASBD
 }
 
 -(void)dealloc {
+    NSLog(@"Recorder dealloc");
     if (mFileURL) {
         CFRelease(mFileURL);
     }

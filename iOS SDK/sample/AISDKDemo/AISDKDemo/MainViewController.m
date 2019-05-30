@@ -8,6 +8,8 @@
 
 #import "MainViewController.h"
 #import "DeveloperUIVC.h"
+#import "OneShotViewController.h"
+#import "SettingViewController.h"
 
 #define Storyboard(s) [UIStoryboard storyboardWithName:s bundle:nil]
 #define StoryboardVC(s,vc) [Storyboard(s) instantiateViewControllerWithIdentifier:vc]
@@ -41,14 +43,55 @@
 - (IBAction)btnAssistantClick:(id)sender {
     //DeveloperUIVC *vc = [[DeveloperUIVC alloc] init];
     DeveloperUIVC *vc = StoryboardVC(@"Main", @"DeveloperUIVC");
+    vc.serviceType = SERVICE_TYPE_VOICE_ASSISTANT_NO_TTS;
+    [self presentViewController:vc animated:YES completion:nil];
+}
+
+- (IBAction)btnAssistantClickWithTts:(id)sender {
+    //DeveloperUIVC *vc = [[DeveloperUIVC alloc] init];
+    DeveloperUIVC *vc = StoryboardVC(@"Main", @"DeveloperUIVC");
     vc.serviceType = SERVICE_TYPE_VOICE_ASSISTANT;
     [self presentViewController:vc animated:YES completion:nil];
 }
+
 - (IBAction)btnWakeupClick:(id)sender {
     DeveloperUIVC *vc = StoryboardVC(@"Main", @"DeveloperUIVC");
     vc.serviceType = SERVICE_TYPE_VOICE_WAKEUP;
     [self presentViewController:vc animated:YES completion:nil];
 }
+
+- (IBAction)btnWakeupAndRecognizeClick:(id)sender {
+    DeveloperUIVC *vc = StoryboardVC(@"Main", @"DeveloperUIVC");
+    vc.serviceType = SERVICE_TYPE_WAKEUP_AND_RECOGNIZE;
+    [self presentViewController:vc animated:YES completion:nil];
+}
+
+- (IBAction)btnOneshotClick:(id)sender {
+//    DeveloperUIVC *vc = StoryboardVC(@"Main", @"DeveloperUIVC");
+//    vc.serviceType = SERVICE_ONESHOT;
+//    [self presentViewController:vc animated:YES completion:nil];
+    OneShotViewController *vc = StoryboardVC(@"Main", @"OneShotViewController");
+    [self presentViewController:vc animated:YES completion:nil];
+}
+
+- (IBAction)btnSettingClick:(id)sender
+{
+    SettingViewController *settingView = StoryboardVC(@"Main", @"SettingViewController");
+    [self presentViewController:settingView animated:YES completion:nil];
+}
+/*
+- (IBAction)btnCustomWakeupClick:(id)sender {
+    DeveloperUIVC *vc = StoryboardVC(@"Main", @"DeveloperUIVC");
+    vc.serviceType = SERVICE_CUSTOM_WAKEUP;
+    [self presentViewController:vc animated:YES completion:nil];
+}
+
+- (IBAction)btnCombineWakeupClick:(id)sender {
+    DeveloperUIVC *vc = StoryboardVC(@"Main", @"DeveloperUIVC");
+    vc.serviceType = SERVICE_COMBINE_WAKEUP;
+    [self presentViewController:vc animated:YES completion:nil];
+}
+*/
 
 /*
 #pragma mark - Navigation

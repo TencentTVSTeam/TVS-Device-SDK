@@ -11,7 +11,6 @@
 		5346C70B208827FA00A29169 /* VoiceAssistant.m in Sources */ = {isa = PBXBuildFile; fileRef = 5346C70A208827FA00A29169 /* VoiceAssistant.m */; };
 		5346C70E2088305E00A29169 /* Word2VoiceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5346C70D2088305E00A29169 /* Word2VoiceViewController.m */; };
 		5380F456205BF9DC00740EEC /* keywords_model.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 5380F455205BF9DC00740EEC /* keywords_model.bundle */; };
-		8A1321D01FFFB24500592B94 /* AISDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8A1321CF1FFFB24500592B94 /* AISDK.framework */; };
 		8A1ACB3F1FDFBD5400C916AF /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A1ACB251FDFBD5400C916AF /* AppDelegate.m */; };
 		8A1ACB401FDFBD5400C916AF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8A1ACB261FDFBD5400C916AF /* Assets.xcassets */; };
 		8A1ACB411FDFBD5400C916AF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8A1ACB271FDFBD5400C916AF /* LaunchScreen.storyboard */; };
@@ -27,6 +26,22 @@
 		8A1ACB4C1FDFBD5400C916AF /* TtsFormater.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A1ACB3E1FDFBD5400C916AF /* TtsFormater.m */; };
 		8A6352C11F9F680C001BC511 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 8A6352C01F9F680C001BC511 /* libc++.tbd */; };
 		8A6352C31F9F6812001BC511 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 8A6352C21F9F6812001BC511 /* libz.tbd */; };
+		BC014341222EBD7D008879EF /* SettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BC014340222EBD7D008879EF /* SettingViewController.m */; };
+		BC30690D222D7AF90075E184 /* AISDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8A1321CF1FFFB24500592B94 /* AISDK.framework */; };
+		BC50360B222AB0C600438CDA /* OneShotViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BC50360A222AB0C600438CDA /* OneShotViewController.m */; };
+		BC81E96B223F55AA00AC1CD2 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC81E96A223F55AA00AC1CD2 /* CoreTelephony.framework */; };
+		BC81E96D223F55BD00AC1CD2 /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = BC81E96C223F55BD00AC1CD2 /* libsqlite3.0.tbd */; };
+		BC81E96F223F576500AC1CD2 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC81E96E223F576500AC1CD2 /* SystemConfiguration.framework */; };
+		BC81E971223F581700AC1CD2 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC81E970223F581700AC1CD2 /* Security.framework */; };
+		BC81E973223F581E00AC1CD2 /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC81E972223F581E00AC1CD2 /* AdSupport.framework */; };
+		BC81E975223F582D00AC1CD2 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC81E974223F582D00AC1CD2 /* AudioToolbox.framework */; };
+		BC81E977223F583900AC1CD2 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC81E976223F583900AC1CD2 /* QuartzCore.framework */; };
+		BC81E979223F584400AC1CD2 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC81E978223F584400AC1CD2 /* CoreGraphics.framework */; };
+		BC81E97B223F585300AC1CD2 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC81E97A223F585300AC1CD2 /* UIKit.framework */; };
+		BC81E980223FE55200AC1CD2 /* GT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC81E97D223FE55200AC1CD2 /* GT.framework */; };
+		BC81E981223FE55200AC1CD2 /* GT.bundle in Resources */ = {isa = PBXBuildFile; fileRef = BC81E97F223FE55200AC1CD2 /* GT.bundle */; };
+		BCAEAA5A2271B536006619B2 /* LocalPcmReader.mm in Sources */ = {isa = PBXBuildFile; fileRef = BCAEAA592271B536006619B2 /* LocalPcmReader.mm */; };
+		BCE98FC02236113F0041A127 /* vad_model.bundle in Resources */ = {isa = PBXBuildFile; fileRef = BCE98FBF2236113F0041A127 /* vad_model.bundle */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -63,6 +78,25 @@
 		8A6352981F9F63DE001BC511 /* AISDKDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AISDKDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8A6352C01F9F680C001BC511 /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
 		8A6352C21F9F6812001BC511 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
+		BC01433F222EBD7D008879EF /* SettingViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SettingViewController.h; sourceTree = "<group>"; };
+		BC014340222EBD7D008879EF /* SettingViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SettingViewController.m; sourceTree = "<group>"; };
+		BC306942222D85F40075E184 /* dyn-info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "dyn-info.plist"; sourceTree = "<group>"; };
+		BC503609222AB0C600438CDA /* OneShotViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OneShotViewController.h; sourceTree = "<group>"; };
+		BC50360A222AB0C600438CDA /* OneShotViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OneShotViewController.m; sourceTree = "<group>"; };
+		BC81E96A223F55AA00AC1CD2 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
+		BC81E96C223F55BD00AC1CD2 /* libsqlite3.0.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.0.tbd; path = usr/lib/libsqlite3.0.tbd; sourceTree = SDKROOT; };
+		BC81E96E223F576500AC1CD2 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		BC81E970223F581700AC1CD2 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		BC81E972223F581E00AC1CD2 /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
+		BC81E974223F582D00AC1CD2 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		BC81E976223F583900AC1CD2 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		BC81E978223F584400AC1CD2 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		BC81E97A223F585300AC1CD2 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		BC81E97D223FE55200AC1CD2 /* GT.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GT.framework; sourceTree = "<group>"; };
+		BC81E97F223FE55200AC1CD2 /* GT.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = GT.bundle; sourceTree = "<group>"; };
+		BCAEAA582271B536006619B2 /* LocalPcmReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocalPcmReader.h; sourceTree = "<group>"; };
+		BCAEAA592271B536006619B2 /* LocalPcmReader.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = LocalPcmReader.mm; sourceTree = "<group>"; };
+		BCE98FBF2236113F0041A127 /* vad_model.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = vad_model.bundle; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -70,7 +104,17 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8A1321D01FFFB24500592B94 /* AISDK.framework in Frameworks */,
+				BC81E97B223F585300AC1CD2 /* UIKit.framework in Frameworks */,
+				BC81E979223F584400AC1CD2 /* CoreGraphics.framework in Frameworks */,
+				BC81E977223F583900AC1CD2 /* QuartzCore.framework in Frameworks */,
+				BC81E975223F582D00AC1CD2 /* AudioToolbox.framework in Frameworks */,
+				BC81E973223F581E00AC1CD2 /* AdSupport.framework in Frameworks */,
+				BC81E971223F581700AC1CD2 /* Security.framework in Frameworks */,
+				BC81E980223FE55200AC1CD2 /* GT.framework in Frameworks */,
+				BC81E96F223F576500AC1CD2 /* SystemConfiguration.framework in Frameworks */,
+				BC81E96D223F55BD00AC1CD2 /* libsqlite3.0.tbd in Frameworks */,
+				BC81E96B223F55AA00AC1CD2 /* CoreTelephony.framework in Frameworks */,
+				BC30690D222D7AF90075E184 /* AISDK.framework in Frameworks */,
 				8A6352C31F9F6812001BC511 /* libz.tbd in Frameworks */,
 				8A6352C11F9F680C001BC511 /* libc++.tbd in Frameworks */,
 			);
@@ -82,6 +126,7 @@
 		8A1ACB231FDFBD5400C916AF /* AISDKDemo */ = {
 			isa = PBXGroup;
 			children = (
+				BC306942222D85F40075E184 /* dyn-info.plist */,
 				8A1ACB241FDFBD5400C916AF /* AppDelegate.h */,
 				8A1ACB251FDFBD5400C916AF /* AppDelegate.m */,
 				8A1ACB261FDFBD5400C916AF /* Assets.xcassets */,
@@ -91,8 +136,12 @@
 				8A1ACB2F1FDFBD5400C916AF /* Data */,
 				8A1ACB321FDFBD5400C916AF /* DeveloperUIVC.h */,
 				8A1ACB331FDFBD5400C916AF /* DeveloperUIVC.m */,
+				BC503609222AB0C600438CDA /* OneShotViewController.h */,
+				BC50360A222AB0C600438CDA /* OneShotViewController.m */,
 				5346C7062087745000A29169 /* MainViewController.h */,
 				5346C7072087745000A29169 /* MainViewController.m */,
+				BC01433F222EBD7D008879EF /* SettingViewController.h */,
+				BC014340222EBD7D008879EF /* SettingViewController.m */,
 				5346C709208827FA00A29169 /* VoiceAssistant.h */,
 				5346C70A208827FA00A29169 /* VoiceAssistant.m */,
 				5346C70C2088305E00A29169 /* Word2VoiceViewController.h */,
@@ -101,6 +150,7 @@
 				8A1ACB351FDFBD5400C916AF /* main.m */,
 				8A1ACB361FDFBD5400C916AF /* Media */,
 				5380F455205BF9DC00740EEC /* keywords_model.bundle */,
+				BCE98FBF2236113F0041A127 /* vad_model.bundle */,
 			);
 			path = AISDKDemo;
 			sourceTree = "<group>";
@@ -127,6 +177,8 @@
 		8A1ACB361FDFBD5400C916AF /* Media */ = {
 			isa = PBXGroup;
 			children = (
+				BCAEAA582271B536006619B2 /* LocalPcmReader.h */,
+				BCAEAA592271B536006619B2 /* LocalPcmReader.mm */,
 				8A1ACB371FDFBD5400C916AF /* AQPlayer.h */,
 				8A1ACB381FDFBD5400C916AF /* AQPlayer.mm */,
 				8A1ACB391FDFBD5400C916AF /* AQRecorder.h */,
@@ -159,11 +211,38 @@
 		8A6352BB1F9F67C9001BC511 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				BC81E97C223FE55200AC1CD2 /* GT.embeddedframework */,
+				BC81E97A223F585300AC1CD2 /* UIKit.framework */,
+				BC81E978223F584400AC1CD2 /* CoreGraphics.framework */,
+				BC81E976223F583900AC1CD2 /* QuartzCore.framework */,
+				BC81E974223F582D00AC1CD2 /* AudioToolbox.framework */,
+				BC81E972223F581E00AC1CD2 /* AdSupport.framework */,
+				BC81E970223F581700AC1CD2 /* Security.framework */,
+				BC81E96E223F576500AC1CD2 /* SystemConfiguration.framework */,
+				BC81E96C223F55BD00AC1CD2 /* libsqlite3.0.tbd */,
+				BC81E96A223F55AA00AC1CD2 /* CoreTelephony.framework */,
 				8A1321CF1FFFB24500592B94 /* AISDK.framework */,
 				8A6352C21F9F6812001BC511 /* libz.tbd */,
 				8A6352C01F9F680C001BC511 /* libc++.tbd */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		BC81E97C223FE55200AC1CD2 /* GT.embeddedframework */ = {
+			isa = PBXGroup;
+			children = (
+				BC81E97D223FE55200AC1CD2 /* GT.framework */,
+				BC81E97E223FE55200AC1CD2 /* Resources */,
+			);
+			path = GT.embeddedframework;
+			sourceTree = "<group>";
+		};
+		BC81E97E223FE55200AC1CD2 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				BC81E97F223FE55200AC1CD2 /* GT.bundle */,
+			);
+			path = Resources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -198,7 +277,7 @@
 				TargetAttributes = {
 					8A6352971F9F63DE001BC511 = {
 						CreatedOnToolsVersion = 8.3.3;
-						DevelopmentTeam = 7XVAJ25VC5;
+						DevelopmentTeam = D9CZQR89N9;
 						ProvisioningStyle = Manual;
 					};
 				};
@@ -208,6 +287,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 				Base,
 			);
@@ -229,6 +309,8 @@
 				8A1ACB411FDFBD5400C916AF /* LaunchScreen.storyboard in Resources */,
 				8A1ACB401FDFBD5400C916AF /* Assets.xcassets in Resources */,
 				8A1ACB421FDFBD5400C916AF /* Main.storyboard in Resources */,
+				BC81E981223FE55200AC1CD2 /* GT.bundle in Resources */,
+				BCE98FC02236113F0041A127 /* vad_model.bundle in Resources */,
 				5380F456205BF9DC00740EEC /* keywords_model.bundle in Resources */,
 				8A1ACB441FDFBD5400C916AF /* RecorderView.xib in Resources */,
 			);
@@ -257,14 +339,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BCAEAA5A2271B536006619B2 /* LocalPcmReader.mm in Sources */,
 				5346C70E2088305E00A29169 /* Word2VoiceViewController.m in Sources */,
 				8A1ACB481FDFBD5400C916AF /* main.m in Sources */,
 				8A1ACB431FDFBD5400C916AF /* RecorderView.m in Sources */,
+				BC014341222EBD7D008879EF /* SettingViewController.m in Sources */,
 				8A1ACB451FDFBD5400C916AF /* SemanticData.m in Sources */,
 				5346C7082087745000A29169 /* MainViewController.m in Sources */,
 				8A1ACB4A1FDFBD5400C916AF /* AQRecorder.mm in Sources */,
 				8A1ACB4C1FDFBD5400C916AF /* TtsFormater.m in Sources */,
 				8A1ACB3F1FDFBD5400C916AF /* AppDelegate.m in Sources */,
+				BC50360B222AB0C600438CDA /* OneShotViewController.m in Sources */,
 				5346C70B208827FA00A29169 /* VoiceAssistant.m in Sources */,
 				8A1ACB4B1FDFBD5400C916AF /* TTSAudioPlayer.m in Sources */,
 				8A1ACB491FDFBD5400C916AF /* AQPlayer.mm in Sources */,
@@ -400,20 +485,26 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_STYLE = Manual;
-				DEVELOPMENT_TEAM = 7XVAJ25VC5;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = H265AG466K;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/GT.embeddedframework",
+				);
+				HEADER_SEARCH_PATHS = (
+					"../AISDK/**",
+					"../GT.embeddedframework/**",
 				);
 				INFOPLIST_FILE = AISDKDemo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.tencent.test.AISDKDemo;
+				PRODUCT_BUNDLE_IDENTIFIER = com.tencent.db.dingdangDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "28dffd7f-3aae-4f9e-9491-4be04bca8680";
-				PROVISIONING_PROFILE_SPECIFIER = TestAppProfile;
+				PROVISIONING_PROFILE = "25183ae8-635f-46e3-b0b4-36c7adbda5cf";
+				PROVISIONING_PROFILE_SPECIFIER = "com.tencent.db.dingdangDemo InHouse";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
@@ -422,20 +513,26 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				DEVELOPMENT_TEAM = 7XVAJ25VC5;
+				DEVELOPMENT_TEAM = HKB8WPFBR9;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/GT.embeddedframework",
+				);
+				HEADER_SEARCH_PATHS = (
+					"../AISDK/**",
+					"../GT.embeddedframework/**",
 				);
 				INFOPLIST_FILE = AISDKDemo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.tencent.test.AISDKDemo;
+				PRODUCT_BUNDLE_IDENTIFIER = com.tencent.db.dingdangDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "28dffd7f-3aae-4f9e-9491-4be04bca8680";
-				PROVISIONING_PROFILE_SPECIFIER = TestAppProfile;
+				PROVISIONING_PROFILE = "25183ae8-635f-46e3-b0b4-36c7adbda5cf";
+				PROVISIONING_PROFILE_SPECIFIER = "com.tencent.db.dingdangDemo InHouse";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;

@@ -17,6 +17,8 @@
 @property(nonatomic, strong)TTSAudioPlayer *ttsAudioPlayer;
 @property(nonatomic, strong) NSMutableString * displayLog;
 
+@property (weak, nonatomic) IBOutlet UIButton *word2Voice;
+@property (weak, nonatomic) IBOutlet UIButton *word2Semantic;
 @end
 
 @implementation Word2VoiceViewController
@@ -40,6 +42,7 @@
 - (IBAction)translateWord2Voice:(id)sender {
     NSString *words = _inputWords.text;
     if (words != nil && words.length > 0) {
+        [self setBtnUnclickable];
         [_voiceAssitant.ttsSession text2Speech:words userData:self];
         [self clearToDisplay];
         [self appendToDisplay:[NSString stringWithFormat:@"文字转语音中......"]];
@@ -50,6 +53,7 @@
 - (IBAction)translateWord2Semantic:(id)sender {
     NSString *words = _inputWords.text;
     if (words != nil && words.length > 0) {
+        [self setBtnUnclickable];
         [self clearToDisplay];
         [_voiceAssitant.semanticSession text2semantic:words userData:self flags:0];// flags:K_AISDK_FLAG_SEMANTIC_EXIT_CUR_SESSION];
     }
@@ -75,6 +79,15 @@
 
 }
 
+- (void)resetBtnStatus {
+    [_word2Semantic setUserInteractionEnabled:true];
+    [_word2Voice setUserInteractionEnabled:true];
+}
+
+- (void)setBtnUnclickable {
+    [_word2Semantic setUserInteractionEnabled:false];
+    [_word2Voice setUserInteractionEnabled:false];
+}
 
 #pragma mark log
 - (void)appendToDisplay:(NSString *)content {
@@ -112,6 +125,7 @@
     NSLog(@"Word2VoiceViewController onOnlineSemanticCallback cmd = %ld", cmd);
     // 语义回调，解析业务场景
     [self appendToDisplay:[NSString stringWithFormat:@"语义回调结果：%@", data]];
+    [self resetBtnStatus];
     if (K_AISDK_CMD_SEMANTIC_RESULT == cmd) {
 //        SemanticData *sd = [SemanticData valueFromJson:data];
 //        // 处理业务，此处直接演示tts功能
@@ -120,12 +134,12 @@
 //        } else {
 //            [_voiceAssitant.ttsSession text2Speech:sd.tipsText userData:self];
 //        }
-        
     }
 }
 
 - (void)onOnlineSemanticError:(NSInteger)cmd code:(NSInteger)code message:(NSString *)message userData:(id)userData {
     [self appendToDisplay:[NSString stringWithFormat:@"语义回调错误：%@", message]];
+    [self resetBtnStatus];
 }
 
 #pragma mark TtsSessionDelegate
@@ -133,16 +147,24 @@
     if (pcm) {
         // 转换pcm格式为wav格式播放，也可调用系统AudioQueue播放pcm
         [_ttsAudioPlayer addData:[TtsFormater translatePcm2Wav:pcm]];
+    } else {
+        [self resetBtnStatus];
+        [self clearToDisplay];
     }
 }
 
 -(void)onOnlineTtsError:(NSInteger)cmd code:(NSInteger)code message:(NSString *)message userData:(id)userData{
     //NSLog(@"tts error cmd:%ld data:%@", cmd, data);
+    [self resetBtnStatus];
+    [self clearToDisplay];
 }
 
 #pragma mark TTSAudioPlayerDelegate
 - (void)TTSAudioPlayerFinishedAll:(BOOL)success {
     // TODO 恢复其他播放
+    NSLog(@"TTSAudioPlayerFinishedAll");
+    [self resetBtnStatus];
+    [self clearToDisplay];
 }
 
 @end
