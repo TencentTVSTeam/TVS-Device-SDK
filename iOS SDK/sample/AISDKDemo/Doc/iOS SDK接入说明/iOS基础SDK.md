@@ -87,7 +87,7 @@ SDK的唤醒识别和在线语音识别对输入音频的要求是一致的，�
 语音识别的接口，可以识别音频流中的文字，并返回到上层，方式为流式识别。例如用户还在说话中，就返回一部分文本。
 语音识别能力由VoiceSession提供，调用者需要实现VoiceSessionDelegate回调方法。
 
-```   
+```
 /*!
  * @brief 语音识别正常返回
  * @param cmd 返回结果命令字，参照K_AISDK_CMD_xx来处理具体业务
@@ -96,8 +96,8 @@ SDK的唤醒识别和在线语音识别对输入音频的要求是一致的，�
  * @param userData 调用语音识别时传入的自定义参数
  */
 -(void)onOnlineVocieCallback:(NSInteger)cmd code:(NSInteger)code data:(NSString *)data userData:(id)userData;
-
-
+```
+```
 /*!
  * @brief 语音识别错误返回
  * @param cmd 返回结果命令字，参照K_AISDK_CMD_xx_ERROR来处理异常返回
@@ -132,7 +132,8 @@ SDK的唤醒识别和在线语音识别对输入音频的要求是一致的，�
  * @return 0：ok，other：fail。 错误码定义见AISDK_ERROR_*常量
  */
 -(int)startVoice2text:(NSInteger)mode;
-
+```
+```
 /*
  * @brief 输入录音数据
  * @param audioBuffer 上传音频数据
@@ -145,13 +146,15 @@ SDK的唤醒识别和在线语音识别对输入音频的要求是一致的，�
  *   该函数。
  */
 -(int)inputVoice2TextAudioData:(NSData *)audioBuffer;
-
+```
+```
 /*
  * @brief 取消本次语音识别
  * @return 0：ok，other：fail。 错误码定义见AISDK_ERROR_*常量
  */
 -(int)cancelVoice2Text;
-
+```
+```
 /*
  * @brief 停止本次语音识别，获取语音识别结果。
  * @warning 停止后，不会中断语音识别，SDK会将现在已经接收到的音频发送到后台请求语音识别结果。
@@ -174,7 +177,8 @@ SDK的唤醒识别和在线语音识别对输入音频的要求是一致的，�
  * @param userData 调用语义识别时传入的自定义参数
  */
 -(void)onOnlineSemanticCallback:(NSInteger)cmd code:(NSInteger)code data:(NSString *)data userData:(id)userData;
-
+```
+```
 /*!
  * @brief 语义识别错误返回
  * @param cmd 返回结果命令字，参照K_AISDK_CMD_xx_ERROR来处理异常返回
@@ -197,7 +201,8 @@ SDK的唤醒识别和在线语音识别对输入音频的要求是一致的，�
  * @return 0:ok, other：fail。 错误码定义见K_AISDK_ERROR_*常量
  */
 - (int) text2semantic:(NSString *)text userData:(id)userdata flags:(NSInteger)flags;
-
+```
+```
 /*!
  * @brief 取消本次语义请求
  * @return 0:ok, other：fail。 错误码定义见K_AISDK_ERROR_*常量
@@ -220,8 +225,8 @@ SDK的唤醒识别和在线语音识别对输入音频的要求是一致的，�
  * @param userData 自定义数据
  */
 -(void)onOnlineTtsCallback:(NSInteger)cmd code:(NSInteger)code pcm:(NSData *)pcm userData:(id)userData;
-
-
+```
+```
 /*!
  * @brief 异常回调
  * @param cmd 参照K_AISDK_CMD_TTS_ERROR说明
@@ -230,7 +235,6 @@ SDK的唤醒识别和在线语音识别对输入音频的要求是一致的，�
  * @param userData 自定义数据
  */
 -(void)onOnlineTtsError:(NSInteger)cmd code:(NSInteger)code message:(NSString *)message userData:(id)userData;
-
 ```
 
 <img src="./images/speech_engine.png" alt="local" title="speech engine" width="400" height="380" />
@@ -245,7 +249,8 @@ SDK的唤醒识别和在线语音识别对输入音频的要求是一致的，�
  * @return 0:ok, other：fail。 错误码定义见K_AISDK_ERROR_*常量
  */
 -(int)text2Speech:(NSString *)text userData:(id)userdata;
-
+```
+```
 /*!
  * @brief 取消此次的TTS请求
  * @warning 取消后， 这一次的tts请求结果不再返回。
@@ -290,7 +295,8 @@ OneShot指的是用户可以把唤醒词和命令词连起来说，比如“叮�
  * @param userData 自定义数据
  */
 -(void)onOneShotStart:(NSInteger)cmd code:(NSInteger)code data:(NSString *)data userData:(id)userData;
-
+```
+```
 /*!
  * @brief OneShot模式结束
  * @param cmd 参照cmd说明,K_AISDK_CMD_xx
@@ -299,7 +305,8 @@ OneShot指的是用户可以把唤醒词和命令词连起来说，比如“叮�
  * @param userData 自定义数据
  */
 -(void)onOneShotStop:(NSInteger)cmd code:(NSInteger)code data:(NSString *)data userData:(id)userData;
-
+```
+```
 /*!
  * @brief OneShot唤醒识别回调
  * @param cmd 参照cmd说明,K_AISDK_CMD_xx
@@ -308,7 +315,8 @@ OneShot指的是用户可以把唤醒词和命令词连起来说，比如“叮�
  * @param userData 自定义数据
  */
 -(void)onOneShotWakeupCallback:(NSInteger)cmd code:(NSInteger)code data:(NSString *)data userData:(id)userData;
-
+```
+```
 /*!
  @brief OneShot唤醒识别异常回调
  @param cmd 参照cmd说明, K_AISDK_ERROR_xx
@@ -317,7 +325,8 @@ OneShot指的是用户可以把唤醒词和命令词连起来说，比如“叮�
  @param userData 自定义数据
  */
 -(void)onOneShotWakeupError:(NSInteger)cmd code:(NSInteger)code message:(NSString *)message userData:(id)userData;
-
+```
+```
 /*!
  * @brief OneShot语音识别回调
  * @param cmd 参照cmd说明,K_AISDK_CMD_xx
@@ -326,7 +335,8 @@ OneShot指的是用户可以把唤醒词和命令词连起来说，比如“叮�
  * @param userData 自定义数据
  */
 -(void)onOneShotVocieCallback:(NSInteger)cmd code:(NSInteger)code data:(NSString *)data userData:(id)userData;
-
+```
+```
 /*!
  @brief OneShot语音识别异常回调
  @param cmd 参照cmd说明, K_AISDK_ERROR_xx
@@ -345,8 +355,8 @@ OneShot指的是用户可以把唤醒词和命令词连起来说，比如“叮�
  * @param wakeupModelPath 唤醒词模型所在路径，必传，否则无法唤醒
  */
 -(instancetype)init:(NSString*)voiceModelPath wakeupModelPath:(NSString*)wakeupModelPath;
-
-
+```
+```
 /*!
  * @brief 开始通用语音识别流程，启动一次即可一直输入语音，不需要反复启动，SDK内部会在唤醒识别和语音识别之间切换
  * @param userData 自定义数据指针。callback时带回。
@@ -354,7 +364,8 @@ OneShot指的是用户可以把唤醒词和命令词连起来说，比如“叮�
  * @return 0：ok，other：fail。 错误码定义见K_AISDK_ERROR_*常量
  */
 -(int)start:(void*)userData voiceType:(NSInteger)flags;
-
+```
+```
 /*!
  * @brief 开始一次语音识别，用于直接唤醒开始交互
  * @param userData 自定义数据指针。callback时带回。
@@ -362,25 +373,29 @@ OneShot指的是用户可以把唤醒词和命令词连起来说，比如“叮�
  * @return 0：ok，other：fail。 错误码定义见AISDK_ERROR_*常量
  */
 -(int)startOneShotOnlineVoice2Text:(void*)userData voiceType:(NSInteger)flags;
-
+```
+```
 /*!
  * @brief 取消通用语音识别流程，会停掉正在进行中的唤醒和者语音识别
  * @return 0：ok，other：fail。 错误码定义见K_AISDK_ERROR_*常量
  */
 -(int)stopOneShot;
-
+```
+```
 /*!
  * @brief 停止本次语音识别并获取结果，用于长按开启语音识别的场景
  * @return 0：ok，other：fail。 错误码定义见K_AISDK_ERROR_*常量
  */
 -(int)stopOneShotOnlineVoice2Text;
-
+```
+```
 /*!
  * @brief 取消本次语音识别
  * @return 0：ok，other：fail。 错误码定义见K_AISDK_ERROR_*常量
  */
 -(int)cancelOneShotOnlineVoice2Text;
-
+```
+```
 /*!
  * @brief 输入音频数据，在OneShot流程中全程需要输入
  * @param audioBuffer 录音数据存储区域。建议长度为4096.
@@ -405,7 +420,8 @@ SDK语音识别默认接受的音频数据是PCM格式的，如果有输入非PC
 ```
 // 配置输入已编码音频
 setConfig(K_AISDK_CONFIG_VOICE_ONLINE_INPUT_ENCODED_DATA,"1");
-
+```
+```
 // 配置语音识别的语音编码格式为opus
 aisdkSetConfig(AISDK_CONFIG_AUDIO_FORMAT,"7");
 ```
